@@ -6,7 +6,7 @@ import time
 import argparse
 import re
 
-from util import *
+from .utils import *
 
 class Network:
 
@@ -20,7 +20,7 @@ class Network:
 	#Função que configura os Hosts internamente e externamente.
 	#Configurações de Queue, Algoritmo da Camada de Transporte
 	#Configurações de banda, e perda em cada Host.
-	
+
 
 	def configHosts(self, nodes):
 		for node in nodes:
@@ -45,5 +45,12 @@ class Network:
 
 
 			#Necessário verificar se aquele algoritmo está instalado!
+			algorithms = get_algorithms()
+
+			if(node.transport_protocol not in algorithms):
+				raise ValueError('Algoritmo não implementado no SO.')
+
+			#Configura o algoritmo de transporte
+			send.cmd("sysctl net.ipv4.tcp_congestion_control={}".format(node.transport_protocol))
 
 			
