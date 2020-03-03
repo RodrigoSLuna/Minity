@@ -1,0 +1,36 @@
+ 
+
+[  
+	{ 
+		"time":1,
+		"node":"h4",
+		"type":"start",
+		"ip":"10.0.0.1",
+		"filename":"file.pdf"
+	}
+	,
+	{ 
+		"time":2,
+		"node":"h5",
+		"type":"start",
+		"ip":"10.0.0.2",
+		"filename":"file.pdf"
+	}
+	,
+	{ 
+		"time":3,
+		"node":"h6",
+		"type":"start",
+		"ip":"10.0.0.3",
+		"filename":"file.pdf"
+	}
+	,
+	{ 
+		"time":5,
+		"node":"h1",
+		"type":"rtt",
+		"value":"50ms",
+		"intfName":"h1-s1"
+	}
+
+]
