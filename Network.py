@@ -95,7 +95,9 @@ class Network:
 			
 			if(node.sniffer['sniffer']):
 				path = node.label+"/"
-				node.run_sniffer(path,node.sniffer['intf'])
+				node.run_sniffer(send,path,node.sniffer['intf'])
+				node.run_bufferScript(send,path,node.sniffer['intf'])
+				node.run_ssScript(send,path,node.sniffer['intf'],node.ip)
 	
 	def configSwitchs(self,switchs):
 		for switch in switchs:

@@ -11,12 +11,20 @@ from datetime import datetime
 class Sniffer:
 
 	def run_sniffer(self,directory,intf):
-		FNULL = open(os.devnull, 'w')
-		# print("tcpdump -i {} -n tcp  -w {}".format(intf,os.path.join(directory, "{}.pcap".format(intf))))
-
 		now = datetime.now()
-
 		current_time = now.strftime("%H_%M_%S")
+		FNULL = open(os.devnull, 'w')
 		subprocess.Popen(['tcpdump', '-i', intf, '-n', 'tcp','-w', os.path.join(directory, "{}_{}.pcap".format(intf,now))], stderr = FNULL)
 
 
+	def run_bufferScript(self,send,directory,interval,intf):
+		now = datetime.now()
+		current_time = now.strftime("%H_%M_%S")
+		print("a")
+		send.cmd('./buffer_script.sh {0} {1} >> {2}.pcap &'.format(interval, intf,os.path.join(directory, intf+"_"+current_time)))
+		print("b")
+
+	def run_ssScript(self,send,directory,intf,ip):
+		now = datetime.now()
+		current_time = now.strftime("%H_%M_%S")
+		send.cmd('./ss_script.sh {} >> {}.csv &'.format(poll_interval, os.path.join(directory, ip)))
