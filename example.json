@@ -17,7 +17,7 @@
 				"intf":""
 			},
 		"ip":"10.0.0.1",
-		"ftp_server":0
+		"ftp_server":1
 	},
 	{
 		"type":"HOST",
@@ -172,9 +172,9 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h1-sw1",
 		"intfName2":"h1-sw1",
-		"bw":10,
+		"bw":20,
 		"buffer":"1500",
-		"latency":"5ms",
+		"latency":"0ms",
 		"loss":0
 	},
 	{
@@ -183,9 +183,9 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h2-sw1",
 		"intfName2":"h2-sw1",
-		"bw":10,
+		"bw":20,
 		"buffer":"1500",
-		"latency":"5ms",
+		"latency":"0ms",
 		"loss":0
 	},
 	{
@@ -194,20 +194,20 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h3-sw1",
 		"intfName2":"h3-sw1",
-		"bw":10,
+		"bw":20,
 		"buffer":"1500",
-		"latency":"5ms",
+		"latency":"0ms",
 		"loss":0
 	},
 	{
 		"type":"EDGE",
 		"VERTICE_1":"sw1",
 		"VERTICE_2":"sw2",
-		"intfName1":"sw1-sw2",
+		"intfName1":"sw1-eth4",
 		"intfName2":"sw1-sw2",
-		"bw":10,
+		"bw":20,
 		"buffer":"1500",
-		"latency":"5ms",
+		"latency":"0ms",
 		"loss":0
 	},
 	
@@ -217,11 +217,11 @@
 		"VERTICE_1":"sw2",
 		"VERTICE_2":"sw3",
 		"intfName1":"sw2-sw3",
-		"intfName2":"sw2-sw3",
-		"bw":1,
+		"intfName2":"sw3-eth1",
+		"bw":10,
 		"buffer":"1500",
-		"latency":"5ms",
-		"loss":0
+		"latency":"0ms",
+		"loss":50
 	},
 	{
 		"type":"EDGE",
@@ -229,9 +229,9 @@
 		"VERTICE_2":"h4",
 		"intfName1":"sw3-h4",
 		"intfName2":"sw3-h4",
-		"bw":10,
+		"bw":20,
 		"buffer":"1500",
-		"latency":"5ms",
+		"latency":"10ms",
 		"loss":0
 	},
 	{
@@ -240,9 +240,9 @@
 		"VERTICE_2":"h5",
 		"intfName1":"sw3-h5",
 		"intfName2":"sw3-h5",
-		"bw":10,
+		"bw":20,
 		"buffer":"1500",
-		"latency":"5ms",
+		"latency":"50ms",
 		"loss":0
 	},
 	{
@@ -251,9 +251,9 @@
 		"VERTICE_2":"h6",
 		"intfName1":"sw3-h6",
 		"intfName2":"sw3-h6",
-		"bw":10,
+		"bw":20,
 		"buffer":"1500",
-		"latency":"5ms",
+		"latency":"10ms",
 		"loss":0
 	}
 ]

@@ -1,36 +1,39 @@
  
 
-[  
+[  	
+
+	{
+		"type":"config",
+		"n_rodadas":1,
+		"tempo_rodada":100
+
+	},
 	{ 
 		"time":1,
 		"node":"h4",
 		"type":"start",
 		"ip":"10.0.0.1",
-		"filename":"file.pdf"
-	}
-	,
-	{ 
-		"time":2,
-		"node":"h5",
-		"type":"start",
-		"ip":"10.0.0.2",
-		"filename":"file.pdf"
-	}
-	,
-	{ 
-		"time":3,
+		"filename":"big_file.zip"
+	},
+	{
+		"time":1,
 		"node":"h6",
 		"type":"start",
 		"ip":"10.0.0.3",
-		"filename":"file.pdf"
-	}
-	,
+		"filename":"big_file.zip"
+	},
 	{ 
 		"time":5,
-		"node":"h1",
+		"node":"h5",
+		"type":"start",
+		"ip":"10.0.0.2",
+		"filename":"big_file.zip"
+	},
+	{
+		"time":20,
+		"node":"h4",
 		"type":"rtt",
-		"value":"50ms",
-		"intfName":"h1-s1"
+		"value":"100",
+		"intfName":"sw3-h4"
 	}
-
 ]

@@ -2,13 +2,18 @@
 from time import sleep
 import logging
 class Handler():
-	def run(self,nodes,net):
+	def run(self,nodes,net,configs):
 		
 		logging.basicConfig(filename='example.log',level=logging.INFO,format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 		time = 0
 		#Mudar essa diretiva, como testar ? Deixa rodando eternamente? Interrupção?
 		#Adicionar LOG 
-		while(time < 10):
+		
+
+		max_time = configs['tempo_rodada']
+
+
+		while(time < max_time):
 			
 			for node in nodes:
 				

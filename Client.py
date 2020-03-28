@@ -7,7 +7,8 @@ import ftplib
 def main():
 
     ftp = ftplib.FTP()
-    
+        
+    print(sys.argv)
 
     IPAddr = sys.argv[1]
     port = 2121

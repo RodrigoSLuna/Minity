@@ -15,6 +15,8 @@ from mininet.cli import CLI
 import json
 import io
 
+from time import sleep
+
 Nodes = []
 Switchs = []
 Routers = []
@@ -52,36 +54,45 @@ def configTopo():
 def configExperimento():
 	with io.open("params.json","r",encoding='utf-8') as json_file:
 		data = json.load(json_file)
-
+		params = None
 		for d in data:
+			if(d['type']=='config'):
+				params = d
+				continue
 			for node in Nodes:
 				if(node.label == d['node']):
 					node.configComand( d )
+	return params
 
+#https://jon.oberheide.org/blog/2008/10/15/dpkt-tutorial-2-parsing-a-pcap-file/
 
 def main():
 	configTopo()
-	configExperimento()
+	config = configExperimento()
 
 
+	for i in range(config['n_rodadas']):
+		print("Here")
+		topologia = Topologia(Nodes,Switchs,Routers,Edges)
+		Net = Network(topologia)
+		Net.configHosts(Nodes)
+		Net.configSwitchs(Switchs)
+		Net.configRouter(Routers)
 
-	topologia = Topologia(Nodes,Switchs,Routers,Edges)
-	Net = Network(topologia)
-	Net.configHosts(Nodes)
-	Net.configSwitchs(Switchs)
-	Net.configRouter(Routers)
+		Net.net.start()
+		
+		gerenciador = Handler()
+		gerenciador.run(Nodes,Net.net,config)
+		# CLI(Net.net)
 
-	Net.net.start()
-	
-	gerenciador = Handler()
-	gerenciador.run(Nodes,Net.net)
-	# Net.runExperiment(Nodes)
 
+		Net.net.stop()
+		sleep(config['tempo_rodada']+10)
 	# #Abre a interface no terminal, assim e possivel abrir um 
 	# #shell para cada node, excelente para testar ideias antes de configurar a API de testes.
 	# #Otimo para realizar testes para a transmissao de Dados do FTP
 	
-	CLI(Net.net)
+	# CLI(Net.net)
 
 
 
@@ -91,10 +102,16 @@ def main():
 
 	# info( "Dumping host connections\n" )
 	# dumpNodeConnections(Net.net.hosts)
-	# info( "Testing bandwidth between h1 and h5\n" )
-	# h1, h5 = Net.net.getNodeByName('h1', 'h5')
-	# Net.net.iperf( ( h1, h5 ), l4Type='TCP' )
-	# Net.net.stop()
+	# info( "Testing bandwidth between h1 and h4\n" )
+	# h1, h4 = Net.net.getNodeByName('h1', 'h4')
+	# Net.net.iperf( ( h4, h1 ), l4Type='TCP' )
+	
+	# h2, h5 = Net.net.getNodeByName('h2', 'h5')
+	# Net.net.iperf( ( h5, h2 ), l4Type='TCP' )
+	
+	# h3, h6 = Net.net.getNodeByName('h3', 'h6')
+	# Net.net.iperf( ( h6, h3 ), l4Type='TCP' )
+	
 
 if __name__ == '__main__':
 	main()
