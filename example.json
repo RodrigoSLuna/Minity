@@ -231,7 +231,7 @@
 		"intfName2":"sw3-h4",
 		"bw":20,
 		"buffer":"1500",
-		"latency":"10ms",
+		"latency":"10ms", 
 		"loss":0
 	},
 	{

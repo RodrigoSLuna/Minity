@@ -81,13 +81,13 @@ def main():
 
 		Net.net.start()
 		
-		# gerenciador = Handler()
-		# gerenciador.run(Nodes,Net.net,config)
-		CLI(Net.net)
+		gerenciador = Handler()
+		gerenciador.run(Nodes,Net.net,config)
+		# CLI(Net.net)
 
 
 		Net.net.stop()
-		sleep(config['tempo_rodada']+10)
+		sleep(config['tempo_rodada'])
 	# #Abre a interface no terminal, assim e possivel abrir um 
 	# #shell para cada node, excelente para testar ideias antes de configurar a API de testes.
 	# #Otimo para realizar testes para a transmissao de Dados do FTP

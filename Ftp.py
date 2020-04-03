@@ -9,4 +9,4 @@ class FTP:
 	def configServer(self,send,ip):
 		print(("python2 Server.py {} ".format(ip)))
 		send.cmd("python2 Server.py {} &".format(ip))
-		print("b")
+		

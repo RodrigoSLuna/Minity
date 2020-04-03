@@ -94,10 +94,11 @@ class Network:
 			####Configura sniffer
 			
 			if(node.sniffer['sniffer']):
+				print("Sniffer")
 				path = node.label+"/"
-				node.run_sniffer(send,path,node.sniffer['intf'])
-				node.run_bufferScript(send,path,node.sniffer['intf'])
-				node.run_ssScript(send,path,node.sniffer['intf'],node.ip)
+				node.run_sniffer(path,node.sniffer['intf'])
+				# node.run_bufferScript(send,path,node.sniffer['intf'])
+				# node.run_ssScript(send,path,node.sniffer['intf'],node.ip)
 	
 	def configSwitchs(self,switchs):
 		for switch in switchs:
@@ -108,7 +109,10 @@ class Network:
 			####Configura sniffer
 			if(switch.sniffer['sniffer']):
 				path = switch.label+"/"
+				print("Sniffer")
 				switch.run_sniffer(path,switch.sniffer['intf'])
+				switch.run_bufferScript(send,path,0.004,switch.sniffer['intf'])
+				# switch.run_ssScript(send,path,0.2,switch.sniffer['intf'],switch.ip)
 
 
 
