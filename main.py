@@ -81,9 +81,9 @@ def main():
 
 		Net.net.start()
 		
-		gerenciador = Handler()
-		gerenciador.run(Nodes,Net.net,config)
-		# CLI(Net.net)
+		# gerenciador = Handler()
+		# gerenciador.run(Nodes,Net.net,config)
+		CLI(Net.net)
 
 
 		Net.net.stop()

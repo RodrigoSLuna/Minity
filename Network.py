@@ -112,7 +112,7 @@ class Network:
 				print("Sniffer")
 				switch.run_sniffer(path,switch.sniffer['intf'])
 				switch.run_bufferScript(send,path,0.004,switch.sniffer['intf'])
-				# switch.run_ssScript(send,path,0.2,switch.sniffer['intf'],switch.ip)
+				switch.run_ssScript(send,path,0.004,switch.sniffer['intf'],switch.ip)
 
 
 
