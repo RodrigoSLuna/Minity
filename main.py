@@ -33,9 +33,8 @@ Edges = []
 def configTopo():
 	with io.open("example.json","r",encoding='utf-8') as json_file:
 		data = json.load(json_file)
-
+		
 		for d in data:
-
 			if(d['type'] == "HOST"):
 				Nodes.append(Node(d))
 			elif(d['type'] == "SWITCH"):
@@ -81,13 +80,13 @@ def main():
 
 		Net.net.start()
 		
-		# gerenciador = Handler()
-		# gerenciador.run(Nodes,Net.net,config)
-		CLI(Net.net)
+		gerenciador = Handler()
+		gerenciador.run(Nodes,Net.net,config)
+		# CLI(Net.net)
 
 
 		Net.net.stop()
-		sleep(config['tempo_rodada'])
+		# sleep(config['tempo_rodada'])
 	# #Abre a interface no terminal, assim e possivel abrir um 
 	# #shell para cada node, excelente para testar ideias antes de configurar a API de testes.
 	# #Otimo para realizar testes para a transmissao de Dados do FTP

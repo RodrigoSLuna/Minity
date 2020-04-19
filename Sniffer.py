@@ -19,13 +19,12 @@ class Sniffer:
 
 	def run_bufferScript(self,send,directory,interval,intf):
 		now = datetime.now()
+
 		current_time = now.strftime("%H_%M_%S")
-		print("a")
-		print('python2 buffer_script.py {} {} > {}.txt &'.format(interval, intf,os.path.join(directory, intf+"_"+current_time)))
-		# send.cmd('./buffer_script.sh {} {} >> {}.pcap &'.format(interval, intf,os.path.join(directory, intf+"_"+current_time)))
+
 		send.cmd('python2 buffer_script.py {} {} > {}.txt &'.format(interval, intf,os.path.join(directory, intf+"_buffer_"+current_time)))
 
-	def run_ssScript(self,send,directory,interval,intf,ip):
+	def run_ssScript(self,send,directory,interval):
 		now = datetime.now()
 		current_time = now.strftime("%H_%M_%S")
-		# send.cmd('./ss_script.sh {} > {}.csv &'.format(interval, os.path.join(directory, ip)))
+		send.cmd('python2 ss_script.py {} > {}.txt &'.format(interval,os.path.join(directory, "_bbrValues_"+current_time)))

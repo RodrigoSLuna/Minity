@@ -14,7 +14,7 @@ class Handler():
 
 
 		while(time < max_time):
-			
+			print(time)
 			for node in nodes:
 				
 				send = net.get(node.label)

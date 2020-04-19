@@ -1,5 +1,4 @@
 [
-
 	{
 		"type":"HOST",
 		"name":"h1",
@@ -9,50 +8,26 @@
 		"queue_length":"",
 		"queue_jitter":"",
 		"queue_variation":"",
-		"queue_loss":"",
-		
+		"queue_loss":"",		
 		"sniffer":
 			{
-				"sniffer":0,
-				"intf":""
+				"queue":{
+
+					"status":0,
+					"delta_t":0
+				},
+				"traffic":{
+					"status":0,
+					"intf":"",
+					"delta_t":0
+				},
+				"socket":{
+					"status":1,
+					"delta_t":0.04
+				}
+				
 			},
 		"ip":"10.0.0.1",
-		"ftp_server":1
-	},
-	{
-		"type":"HOST",
-		"name":"h2",
-		"transport_protocol":"bbr",
-		"queue_protocol":"fq_codel",
-		"queue_latency":"",
-		"queue_length":"",
-		"queue_jitter":"",
-		"queue_variation":"",
-		"queue_loss":"",
-		"sniffer":
-			{
-				"sniffer":0,
-				"intf":""
-			},
-		"ip":"10.0.0.2",
-		"ftp_server":1
-	},
-	{
-		"type":"HOST",
-		"name":"h3",
-		"transport_protocol":"bbr",
-		"queue_protocol":"fq_codel",
-		"queue_latency":"",
-		"queue_length":"",
-		"queue_jitter":"",
-		"queue_variation":"",
-		"queue_loss":"",
-		"sniffer":
-			{
-				"sniffer":0,
-				"intf":""
-			},
-		"ip":"10.0.0.3",
 		"ftp_server":1
 	},
 	{
@@ -67,46 +42,22 @@
 		"queue_loss":"",
 		"sniffer":
 			{
-				"sniffer":0,
-				"intf":""
+				"queue":{
+					"status":0,
+					"delta_t":0
+				},
+				"traffic":{
+					"status":0,
+					"intf":"",
+					"delta_t":0
+				},
+				"socket":{
+					"status":0,
+					"delta_t":0
+				}
+				
 			},
 		"ip":"10.0.0.4",
-		"ftp_server":0
-	},
-	{
-		"type":"HOST",
-		"name":"h5",
-		"transport_protocol":"bbr",
-		"queue_protocol":"fq_codel",
-		"queue_latency":"",
-		"queue_length":"",
-		"queue_jitter":"",
-		"queue_variation":"",
-		"queue_loss":"",
-		"sniffer":
-			{
-				"sniffer":0,
-				"intf":""
-			},
-		"ip":"10.0.0.5",
-		"ftp_server":0
-	},
-	{
-		"type":"HOST",
-		"name":"h6",
-		"transport_protocol":"bbr",
-		"queue_protocol":"fq_codel",
-		"queue_latency":"",
-		"queue_length":"",
-		"queue_jitter":"",
-		"queue_variation":"",
-		"queue_loss":"",
-		"sniffer":
-			{
-				"sniffer":0,
-				"intf":""
-			},
-		"ip":"10.0.0.6",
 		"ftp_server":0
 	},
 	{
@@ -121,8 +72,22 @@
 		"queue_loss":"",
 		"sniffer":
 			{
-				"sniffer":1,
-				"intf":"sw1-eth4"
+				"queue":{
+					"status":1,
+					"intf":"sw1-eth4",
+					"delta_t":0.04
+				},
+				"traffic":{
+					"status":1,
+					"intf":"sw1-eth4",
+					"delta_t":0.2
+
+				},
+				"socket":{
+					"status":0,
+					"delta_t":0
+				}
+				
 			},
 		"ip":"10.0.1.1",
 		"ftp_server":0,
@@ -140,8 +105,21 @@
 		"queue_loss":"",
 		"sniffer":
 			{
-				"sniffer":0,
-				"intf":""
+				"queue":{
+					"status":0,
+					"delta_t":""
+
+				},
+				"traffic":{
+					"status":0,
+					"intf":"sw1-eth4",
+					"delta_t":0.02
+				},
+				"socket":{
+					"status":0,
+					"delta_t":0
+				}
+				
 			},
 		"ip":"10.0.1.2",
 		"ftp_server":0,
@@ -160,9 +138,23 @@
 		"ip":"10.0.1.3",
 		"sniffer":
 			{
-				"sniffer":1,
-				"intf":"sw3-eth1"
+				"queue":{
+					"status":0,
+					"delta_t":0.04,
+					"intf":"sw3-eth1"
+				},
+				"traffic":{
+					"status":0,
+					"intf":"sw3-eth1",
+					"delta_t":0.04
+				},
+				"socket":{
+					"status":0,
+					"delta_t":0
+				}
+				
 			},
+		
 		"ftp_server":0,
 		"mac":"00:00:00:00:00:01"
 	},
@@ -172,28 +164,6 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h1-sw1",
 		"intfName2":"h1-sw1",
-		"bw":20,
-		"buffer":"1500",
-		"latency":"0ms",
-		"loss":0
-	},
-	{
-		"type":"EDGE",
-		"VERTICE_1":"h2",
-		"VERTICE_2":"sw1",
-		"intfName1":"h2-sw1",
-		"intfName2":"h2-sw1",
-		"bw":20,
-		"buffer":"1500",
-		"latency":"0ms",
-		"loss":0
-	},
-	{
-		"type":"EDGE",
-		"VERTICE_1":"h3",
-		"VERTICE_2":"sw1",
-		"intfName1":"h3-sw1",
-		"intfName2":"h3-sw1",
 		"bw":20,
 		"buffer":"1500",
 		"latency":"0ms",
@@ -233,29 +203,8 @@
 		"buffer":"1500",
 		"latency":"10ms", 
 		"loss":0
-	},
-	{
-		"type":"EDGE",
-		"VERTICE_1":"sw3",
-		"VERTICE_2":"h5",
-		"intfName1":"sw3-h5",
-		"intfName2":"sw3-h5",
-		"bw":20,
-		"buffer":"1500",
-		"latency":"50ms",
-		"loss":0
-	},
-	{
-		"type":"EDGE",
-		"VERTICE_1":"sw3",
-		"VERTICE_2":"h6",
-		"intfName1":"sw3-h6",
-		"intfName2":"sw3-h6",
-		"bw":20,
-		"buffer":"1500",
-		"latency":"10ms",
-		"loss":0
 	}
+	
 ]
 
 

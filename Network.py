@@ -39,11 +39,20 @@ class Network:
                                                                           interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'], kwargs['loss'])
 	    return command
 
+	def callSniffer(self,obj,cmd):
+		path = obj.label+"/"
+		if(obj.sniffer['traffic']['status']):	
+			obj.run_sniffer(path,obj.sniffer['traffic']['intf'])
+		
+		if(obj.sniffer['queue']['status']):
+			obj.run_bufferScript(cmd,path,obj.sniffer['queue']['delta_t'],obj.sniffer['queue']['intf'])
+		
+		if(obj.sniffer['socket']['status']):
+			obj.run_ssScript(cmd,path,obj.sniffer['socket']['delta_t'])
 
 
 	def configHosts(self, nodes):
 	
-
 		for node in nodes:
 
 			send = self.net.get(node.label)
@@ -69,7 +78,6 @@ class Network:
 					
 					send.cmd("tc qdisc change dev {} parent 5:1 netem loss {} ".format(edge.intfName2,node.queue_loss))
 			
-
 			#Cria a pasta que tera os arquivos de transferencia
 			send.cmd("mkdir -m 777 {}".format(node.label))
 
@@ -92,14 +100,10 @@ class Network:
 
 
 			####Configura sniffer
+			self.callSniffer(node,send)
 			
-			if(node.sniffer['sniffer']):
-				print("Sniffer")
-				path = node.label+"/"
-				node.run_sniffer(path,node.sniffer['intf'])
-				# node.run_bufferScript(send,path,node.sniffer['intf'])
-				# node.run_ssScript(send,path,node.sniffer['intf'],node.ip)
 	
+
 	def configSwitchs(self,switchs):
 		for switch in switchs:
 			send = self.net.get(switch.label)
@@ -107,14 +111,7 @@ class Network:
 			send.cmd("mkdir -m 777 {}".format(switch.label))
 
 			####Configura sniffer
-			if(switch.sniffer['sniffer']):
-				path = switch.label+"/"
-				print("Sniffer")
-				switch.run_sniffer(path,switch.sniffer['intf'])
-				switch.run_bufferScript(send,path,0.004,switch.sniffer['intf'])
-				switch.run_ssScript(send,path,0.004,switch.sniffer['intf'],switch.ip)
-
-
+			self.callSniffer(switch,send)
 
 	def configRouter(self,routers):
 		for router in routers:
@@ -123,17 +120,6 @@ class Network:
 			send.cmd("mkdir -m 777 {}".format(router.label))
 
 			####Configura sniffer
-			if(router.sniffer['sniffer']):
-				path = router.label+"/"
-				router.run_sniffer(path,router.sniffer['intf'])
+			self.callSniffer(router,send)
 
 
-
-		print("router")
-
-
-
-
-	#Irá iniciar o experimento, e irá disparar um gerenciador de tarefas
-	#que inicializá as transferências entre os hosts.
-	
