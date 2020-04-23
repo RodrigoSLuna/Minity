@@ -31,12 +31,35 @@ class Network:
 
 	#O RTT é adicionado pelo NETEM, que simula uma WAN e cria a latencia nesse caso especifico
 
-	def traffic_shaping(mode, interface, add, **kwargs):
+
+	#LEITURA OBRIGATORIA
+	#https://www.cs.unm.edu/~crandall/netsfall13/TCtutorial.pdf
+	#https://wiki.archlinux.org/index.php/Advanced_traffic_control
+	#https://www.ppgia.pucpr.br/~jamhour/Pessoal/Mestrado/TARC/QoSLinux.pdf
+	#http://man7.org/linux/man-pages/man8/tc-fq_codel.8.html
+	#https://www.tldp.org/HOWTO/Adv-Routing-HOWTO/lartc.qdisc.classful.html
+	#https://manpages.debian.org/unstable/iproute2/tc-fq_codel.8.en.html
+	#https://www.systutorials.com/docs/linux/man/8-tc-tbf/
+	#http://linux-ip.net/gl/tc-filters/
+	#https://serverfault.com/questions/906458/network-shaping-using-tc-netem-doesnt-seem-to-work
+	#https://lartc.org/howto/lartc.qdisc.classful.html
+	#https://lartc.org/howto/lartc.qdisc.filters.html
+
+	def traffic_shaping(self,mode, interface, add, **kwargs):
 	    if mode == 'tbf':
-	        command = 'tc qdisc {} dev {} root handle 1: tbf rate {}'.format('add' if add else ' change',interface, kwargs['rate'])
-	    elif mode == 'netem':
+	        command = 'tc qdisc {} dev {} root handle 1: tbf rate {} buffer {} latency {}'.format('add' if add else ' change',interface, kwargs['rate'],
+	        																							kwards['buffer'],kwards['latency'])
+	    elif mode == 'netem_parent':
 	        command = 'tc qdisc {} dev {} parent 1: handle 2: netem delay {} {} {} loss {}'.format('add' if add else ' change',
-                                                                          interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'], kwargs['loss'])
+                                  		                                      interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'], kwargs['loss'])
+	    elif mode == 'netem_root':
+	    	if kwargs['loss'] == '':
+	    		param = ''
+	    	else:
+	    		param = 'loss'
+	    	command = 'tc qdisc {} dev {} root netem delay {} {} {} {} {}'.format('add' if add else ' change',
+                                  		                                      interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'], param ,kwargs['loss'])
+	    	print(command)
 	    return command
 
 	def callSniffer(self,obj,cmd):
@@ -48,7 +71,7 @@ class Network:
 			obj.run_bufferScript(cmd,path,obj.sniffer['queue']['delta_t'],obj.sniffer['queue']['intf'])
 		
 		if(obj.sniffer['socket']['status']):
-			obj.run_ssScript(cmd,path,obj.sniffer['socket']['delta_t'])
+			obj.run_ssScript(cmd,path,obj.sniffer['socket']['delta_t'],obj.ip)
 
 
 	def configHosts(self, nodes):
@@ -63,20 +86,20 @@ class Network:
 					
 					#Configurando parametros de rede
 					
-					# send.cmd( traffic_shaping('netem',interface= edge.intfName1,add=True,delay=node.queue_latency,jitter =node.queue_jitter, variation= node.queue_variation,loss =node.queue_loss) )			
-					send.cmd("tc qdisc change dev {} parent 5:1 {} limit {}".format(edge.intfName1,node.queue_protocol,node.queue_length))
+					send.cmd( self.traffic_shaping('netem_root',interface= edge.intfName1,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss']) )			
+					# send.cmd("tc qdisc add dev {} parent 5:1 {} limit {}".format(edge.intfName1,node.queue['protocol'],node.queue['length']))
 					
-					send.cmd("tc qdisc change dev {} parent 5:1 netem delay {} {} {} ".format(edge.intfName1,node.queue_latency,node.queue_jitter,node.queue_variation))
+					# send.cmd("tc qdisc add dev {} parent 5:1 netem delay {} {} {} ".format(edge.intfName1,node.queue['latency'],node.queue['jitter'],node.queue['variation']))
 					
-					send.cmd("tc qdisc change dev {} parent 5:1 netem loss {} ".format(edge.intfName1,node.queue_loss))
+					# send.cmd("tc qdisc add dev {} parent 5:1 netem loss {} ".format(edge.intfName1,node.queue['loss']))
 				elif(edge.h2 == node.label):
-					# send.cmd( traffic_shaping('netem',interface= edge.intfName2,add=True,delay=node.queue_latency,
+					send.cmd( self.traffic_shaping('netem_root',interface= edge.intfName2,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss']) )			
 					# 	jitter =node.queue_jitter, variation= node.queue_variation,loss =node.queue_loss) )			
-					send.cmd("tc qdisc change dev {} parent 5:1 {} limit {}".format(edge.intfName2,node.queue_protocol,node.queue_length))
+					# send.cmd("tc qdisc add dev {} parent 5:1 {} limit {}".format(edge.intfName2,node.queue['protocol'],node.queue['length']))
 					
-					send.cmd("tc qdisc change dev {} parent 5:1 netem delay {} {} {} ".format(edge.intfName2,node.queue_latency,node.queue_jitter,node.queue_variation))
+					# send.cmd("tc qdisc add dev {} parent 5:1 netem delay {} {} {} ".format(edge.intfName2,node.queue['latency'],node.queue['jitter'],node.queue['variation']))
 					
-					send.cmd("tc qdisc change dev {} parent 5:1 netem loss {} ".format(edge.intfName2,node.queue_loss))
+					# send.cmd("tc qdisc add dev {} parent 5:1 netem loss {} ".format(edge.intfName2,node.queue['loss']))
 			
 			#Cria a pasta que tera os arquivos de transferencia
 			send.cmd("mkdir -m 777 {}".format(node.label))

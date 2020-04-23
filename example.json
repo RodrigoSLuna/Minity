@@ -3,12 +3,15 @@
 		"type":"HOST",
 		"name":"h1",
 		"transport_protocol":"bbr",
-		"queue_protocol":"fq_codel",
-		"queue_latency":"",
-		"queue_length":"",
-		"queue_jitter":"",
-		"queue_variation":"",
-		"queue_loss":"",		
+		"queue":{
+			"protocol":"",
+			"latency":"0ms",
+			"length":"",
+			"jitter":"",
+			"variation":"",
+			"loss":""		
+		}
+		,
 		"sniffer":
 			{
 				"queue":{
@@ -34,12 +37,14 @@
 		"type":"HOST",
 		"name":"h4",
 		"transport_protocol":"bbr",
-		"queue_protocol":"fq_codel",
-		"queue_latency":"",
-		"queue_length":"",
-		"queue_jitter":"",
-		"queue_variation":"",
-		"queue_loss":"",
+		"queue":{
+			"protocol":"",
+			"latency":"230ms",
+			"length":"",
+			"jitter":"",
+			"variation":"",
+			"loss":""		
+		},
 		"sniffer":
 			{
 				"queue":{
@@ -64,12 +69,14 @@
 		"type":"SWITCH",
 		"name":"sw1",
 		"transport_protocol":"bbr",
-		"queue_protocol":"fq_codel",
-		"queue_latency":"",
-		"queue_length":"",
-		"queue_jitter":"",
-		"queue_variation":"",
-		"queue_loss":"",
+		"queue":{
+			"protocol":"fq_codel",
+			"latency":"",
+			"length":"",
+			"jitter":"",
+			"variation":"",
+			"loss":""		
+		},
 		"sniffer":
 			{
 				"queue":{
@@ -97,12 +104,14 @@
 		"type":"SWITCH",
 		"name":"sw2",
 		"transport_protocol":"bbr",
-		"queue_protocol":"fq_codel",
-		"queue_latency":"",
-		"queue_length":"",
-		"queue_jitter":"",
-		"queue_variation":"",
-		"queue_loss":"",
+		"queue":{
+			"protocol":"fq_codel",
+			"latency":"",
+			"length":"",
+			"jitter":"",
+			"variation":"",
+			"loss":""		
+		},
 		"sniffer":
 			{
 				"queue":{
@@ -129,12 +138,14 @@
 		"type":"SWITCH",
 		"name":"sw3",
 		"transport_protocol":"bbr",
-		"queue_protocol":"fq_codel",
-		"queue_latency":"",
-		"queue_length":"",
-		"queue_jitter":"",
-		"queue_variation":"",
-		"queue_loss":"",
+		"queue":{
+			"protocol":"fq_codel",
+			"latency":"",
+			"length":"",
+			"jitter":"",
+			"variation":"",
+			"loss":""		
+		},
 		"ip":"10.0.1.3",
 		"sniffer":
 			{
@@ -180,14 +191,12 @@
 		"latency":"0ms",
 		"loss":0
 	},
-	
-	
 	{
 		"type":"EDGE",
 		"VERTICE_1":"sw2",
 		"VERTICE_2":"sw3",
 		"intfName1":"sw2-sw3",
-		"intfName2":"sw3-eth1",
+		"intfName2":"sw3-eth1",	
 		"bw":10,
 		"buffer":"1500",
 		"latency":"0ms",

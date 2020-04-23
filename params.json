@@ -5,7 +5,7 @@
 	{
 		"type":"config",
 		"n_rodadas":1,
-		"tempo_rodada":100
+		"tempo_rodada":20
 	},
 	{ 
 		"time":1,
@@ -13,12 +13,6 @@
 		"type":"start",
 		"ip":"10.0.0.1",
 		"filename":"big_file.zip"
-	},
-	{
-		"time":20,
-		"node":"h4",
-		"type":"rtt",
-		"value":"500",
-		"intfName":"sw3-h4"
 	}
+
 ]

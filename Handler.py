@@ -14,7 +14,7 @@ class Handler():
 
 
 		while(time < max_time):
-			print(time)
+			# print(time)
 			for node in nodes:
 				
 				send = net.get(node.label)
@@ -28,9 +28,9 @@ class Handler():
 								logging.info(node.label + " Iniciou transferencia")
 								node.retrFile(send,command['ip'],node.label,command['filename'])
 							elif(command['type'] == 'rtt'):
-								print(time, ("tc qdisc change dev {} parent 5:1 netem delay {}".format(command['intfName'], command['value'])))
+								print(time, ("tc qdisc change dev {} root netem delay {}".format(command['intfName'], command['value'])))
 								logging.info(node.label + " Trocou rtt {}".format(command['value']))
-								send.cmd("tc qdisc change dev {} parent 5:1 netem delay {}".format(command['intfName'], command['value']))
+								send.cmd("tc qdisc change dev {} root netem delay {}".format(command['intfName'], command['value']))
 
 				except Exception as e:
 					print(time,e)

@@ -15,6 +15,7 @@ from mininet.cli import CLI
 import json
 import io
 
+import os
 from time import sleep
 
 Nodes = []
@@ -63,15 +64,17 @@ def configExperimento():
 					node.configComand( d )
 	return params
 
-#https://jon.oberheide.org/blog/2008/10/15/dpkt-tutorial-2-parsing-a-pcap-file/
+
 
 def main():
+	os.system("mn -c ")
+
 	configTopo()
 	config = configExperimento()
 
-
+	
 	for i in range(config['n_rodadas']):
-		print("Here")
+		
 		topologia = Topologia(Nodes,Switchs,Routers,Edges)
 		Net = Network(topologia)
 		Net.configHosts(Nodes)
@@ -82,7 +85,7 @@ def main():
 		
 		gerenciador = Handler()
 		gerenciador.run(Nodes,Net.net,config)
-		# CLI(Net.net)
+		CLI(Net.net)
 
 
 		Net.net.stop()

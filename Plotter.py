@@ -5,7 +5,7 @@ import os
 import sys
 from os import listdir
 from os.path import isfile, join
-	
+import numpy as np	
 
 
 X = []
@@ -163,19 +163,87 @@ def sending_rate(path,pcap_file,delta_t):
 	plt.ylabel("Taxa de Envio [Mbit/s]")
 	plt.xlabel("Tempo (s)")
 	plt.legend()
+
 	plt.show()
 	plt.savefig("sending_rate{}.jpg".format(path))
 
 	plt.cla()
 
+
+
+def plot(multiples_lists, x_label,y_label):
+	import matplotlib.pyplot as plt
+	plt.cla()
+	arrays = [ np.array(x) for x in multiples_lists]
+	try:
+
+		means = [np.mean(k) for k in zip(*arrays)]
+		
+	except:
+		means = arrays[0]
+
+	x_vals = [ (x+1)*0.04 for x in range(0,len(means))]
 	
+	means = means.astype(float)
+	# plt.ylim(min(means),np.mean(means) + np.std(means))
+	plt.plot(x_vals,means)
+	plt.ylabel(y_label)
+	plt.xlabel("Tempo ({})".format(x_label))
+		
+	# plt.show()
+	return plt
+
+
+def bbrPloter(path):
+	_cwnd = []
+	_bw = []
+	_mrtt = []
+	_pacing_gain = []
+	_cwnd_gain = []
+	
+	onlyfiles = [f for f in listdir(path) if isfile(join(path, f)) and "bbr" in f ]
+	for file in onlyfiles:
+		# print(file)
+		f = open(path+"/"+file,"r")
+		cwnd = []
+		bw = []
+		mrtt = []
+		pacing_gain = []
+		cwnd_gain = []
+		for line in f:
+			vals = line.split(',')
+			cwnd.append(vals[0])
+			bw.append(vals[1].split(':')[1].replace('Mbps',''))
+			mrtt.append(vals[2].split(':')[1])
+			pacing_gain.append(vals[3].split(':')[1])
+			cwnd_gain.append(vals[4].split(':')[1].replace('\n',''))
+		_cwnd.append(cwnd)
+		_bw.append(bw)
+		_mrtt.append(mrtt)
+		_pacing_gain.append(pacing_gain)
+		_cwnd_gain.append(cwnd_gain)
+
+
+
+	plot(_cwnd,'s',"CWND bytes").savefig("{}/cwnd.jpg".format(path))
+	plot(_bw,'s',"BW Mbps").savefig("{}/bw.jpg".format(path))
+	plot(_mrtt,'ms',"mrtt").savefig("{}/mrtt.jpg".format(path))
+	plot(_pacing_gain,'s',"pacing gain").savefig("{}/pacing_gain.jpg".format(path))
+	plot(_cwnd_gain,'s',"cwnd gain").savefig("{}/cwnd_gain.jpg".format(path))
+	
+	# print(_cwnd_gain)	
+
 def main():
 	
-	mypath = "/home/rodrigoluna/Área de Trabalho/UFRJ/TCC/Framework/sw1"
-	onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-	print(onlyfiles)
-	for file in onlyfiles:
-		sending_rate("sw1",file,0.17355421)
+	# mypath = "/home/rodrigoluna/Área de Trabalho/UFRJ/TCC/Framework/sw1"
+	# onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+	# print(onlyfiles)
+	# for file in onlyfiles:
+	# 	sending_rate("sw1",file,0.17355421)
+
+	bbrPloter("/home/rodrigoluna/Área de Trabalho/UFRJ/TCC/Framework/h1")
+
+
 
 	# print(X)
 	# print(Y)

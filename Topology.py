@@ -21,8 +21,8 @@ class Topologia(Topo):
 				self.addLink(edge.h1,edge.h2,bw = edge.bw)
 				# self.addLink(edge.h1,edge.h2)
 			else:
-				self.addLink(edge.h1,edge.h2, bw = edge.bw,intfName1 =edge.intfName1 ,intfName2=edge.intfName2)
-				# self.addLink(edge.h1,edge.h2i,intfName1 =edge.intfName1 ,intfName2=edge.intfName2)
+				# self.addLink(edge.h1,edge.h2, bw = edge.bw,intfName1 =edge.intfName1 ,intfName2=edge.intfName2)
+				self.addLink(edge.h1,edge.h2,intfName1 =edge.intfName1 ,intfName2=edge.intfName2)
 			
 	
 	#This function, run for every node and configure the traffic of each host
