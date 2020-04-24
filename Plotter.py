@@ -211,12 +211,15 @@ def bbrPloter(path):
 		pacing_gain = []
 		cwnd_gain = []
 		for line in f:
-			vals = line.split(',')
-			cwnd.append(vals[0])
-			bw.append(vals[1].split(':')[1].replace('Mbps',''))
-			mrtt.append(vals[2].split(':')[1])
-			pacing_gain.append(vals[3].split(':')[1])
-			cwnd_gain.append(vals[4].split(':')[1].replace('\n',''))
+			try:
+				vals = line.split(',')
+				cwnd.append(vals[0])
+				bw.append(vals[1].split(':')[1].replace('Mbps',''))
+				mrtt.append(vals[2].split(':')[1])
+				pacing_gain.append(vals[3].split(':')[1])
+				cwnd_gain.append(vals[4].split(':')[1].replace('\n',''))
+			except:
+				continue
 		_cwnd.append(cwnd)
 		_bw.append(bw)
 		_mrtt.append(mrtt)

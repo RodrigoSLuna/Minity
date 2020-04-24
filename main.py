@@ -88,10 +88,10 @@ def main():
 		
 		gerenciador = Handler()
 		gerenciador.run(Nodes,Switchs,Net.net,config)
-		h1, h4 = Net.net.getNodeByName('h1', 'h4')
-		Net.net.iperf( ( h1, h4 ), l4Type='TCP' )
+		# h1, h4 = Net.net.getNodeByName('h1', 'h4')
+		# Net.net.iperf( ( h1, h4 ), l4Type='TCP' )
 
-		CLI(Net.net)
+		# CLI(Net.net)
 
 		Net.net.stop()
 		# sleep(config['tempo_rodada'])
