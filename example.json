@@ -39,7 +39,7 @@
 		"transport_protocol":"bbr",
 		"queue":{
 			"protocol":"",
-			"latency":"230ms",
+			"latency":"10ms",
 			"length":"",
 			"jitter":"",
 			"variation":"",
@@ -48,8 +48,10 @@
 		"sniffer":
 			{
 				"queue":{
-					"status":0,
-					"delta_t":0
+					"status":1,
+					"delta_t":0.04,
+					"intf":"sw3-h4"
+
 				},
 				"traffic":{
 					"status":0,
@@ -175,8 +177,8 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h1-sw1",
 		"intfName2":"h1-sw1",
-		"bw":20,
-		"buffer":"1500",
+		"bw":60,
+		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -186,8 +188,8 @@
 		"VERTICE_2":"sw2",
 		"intfName1":"sw1-eth4",
 		"intfName2":"sw1-sw2",
-		"bw":20,
-		"buffer":"1500",
+		"bw":60,
+		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -197,10 +199,10 @@
 		"VERTICE_2":"sw3",
 		"intfName1":"sw2-sw3",
 		"intfName2":"sw3-eth1",	
-		"bw":10,
-		"buffer":"1500",
+		"bw":60,
+		"buffer":1500,
 		"latency":"0ms",
-		"loss":50
+		"loss":0
 	},
 	{
 		"type":"EDGE",
@@ -208,9 +210,9 @@
 		"VERTICE_2":"h4",
 		"intfName1":"sw3-h4",
 		"intfName2":"sw3-h4",
-		"bw":20,
-		"buffer":"1500",
-		"latency":"10ms", 
+		"bw":60,
+		"buffer":1500,
+		"latency":"0ms", 
 		"loss":0
 	}
 	

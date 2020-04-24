@@ -14,15 +14,16 @@ class Sniffer:
 		now = datetime.now()
 		current_time = now.strftime("%H_%M_%S")
 		FNULL = open(os.devnull, 'w')
+		
 		subprocess.Popen(['tcpdump', '-i', intf, '-n', 'tcp','-w', os.path.join(directory, "{}_{}.pcap".format(intf,now))], stderr = FNULL)
-
+		
 
 	def run_bufferScript(self,send,directory,interval,intf):
 		now = datetime.now()
 
 		current_time = now.strftime("%H_%M_%S")
 
-		send.cmd('python2 buffer_script.py {} {} > {}.txt &'.format(interval, intf,os.path.join(directory, intf+"_buffer_"+current_time)))
+		send.cmd('python2 buffer_script.py {} {} > {}.txt &'.format(interval, intf,os.path.join(directory, intf+"_bufferQueue_"+current_time)))
 
 	def run_ssScript(self,send,directory,interval,ip):
 		now = datetime.now()

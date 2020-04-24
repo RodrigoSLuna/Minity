@@ -62,6 +62,9 @@ def configExperimento():
 			for node in Nodes:
 				if(node.label == d['node']):
 					node.configComand( d )
+			for switch in Switchs:
+				if(switch.label == d['node']):
+					switch.configComand( d )
 	return params
 
 
@@ -84,9 +87,11 @@ def main():
 		Net.net.start()
 		
 		gerenciador = Handler()
-		gerenciador.run(Nodes,Net.net,config)
-		CLI(Net.net)
+		gerenciador.run(Nodes,Switchs,Net.net,config)
+		h1, h4 = Net.net.getNodeByName('h1', 'h4')
+		Net.net.iperf( ( h1, h4 ), l4Type='TCP' )
 
+		CLI(Net.net)
 
 		Net.net.stop()
 		# sleep(config['tempo_rodada'])
@@ -94,19 +99,14 @@ def main():
 	# #shell para cada node, excelente para testar ideias antes de configurar a API de testes.
 	# #Otimo para realizar testes para a transmissao de Dados do FTP
 	
-	# CLI(Net.net)
-
-
-
 	#Menu ao usuario? Testar conexoes ?
 	#Rodar experimento?
 	
-
 	# info( "Dumping host connections\n" )
 	# dumpNodeConnections(Net.net.hosts)
 	# info( "Testing bandwidth between h1 and h4\n" )
 	# h1, h4 = Net.net.getNodeByName('h1', 'h4')
-	# Net.net.iperf( ( h4, h1 ), l4Type='TCP' )
+	# Net.net.iperf( ( h1, h4 ), l4Type='TCP' )
 	
 	# h2, h5 = Net.net.getNodeByName('h2', 'h5')
 	# Net.net.iperf( ( h5, h2 ), l4Type='TCP' )

@@ -157,9 +157,9 @@ def sending_rate(path,pcap_file,delta_t):
 	# Creating zoom in and z
 
 	plt.plot([0,50],[5,5],label = "Fair Share",ls = '--',color='red')
-	plt.xlim(0,60)
+	# plt.xlim(0,60)
 	plt.title("Dois Fluxos TCP BBR")
-	plt.yticks([2.5,5,7.5,10])
+	# plt.yticks([2.5,5,7.5,10])
 	plt.ylabel("Taxa de Envio [Mbit/s]")
 	plt.xlabel("Tempo (s)")
 	plt.legend()
@@ -190,7 +190,7 @@ def plot(multiples_lists, x_label,y_label):
 	plt.ylabel(y_label)
 	plt.xlabel("Tempo ({})".format(x_label))
 		
-	# plt.show()
+	plt.show()
 	return plt
 
 
@@ -225,24 +225,44 @@ def bbrPloter(path):
 
 
 
-	plot(_cwnd,'s',"CWND bytes").savefig("{}/cwnd.jpg".format(path))
+	plot(_cwnd,'s',"CWND packets").savefig("{}/cwnd.jpg".format(path))
 	plot(_bw,'s',"BW Mbps").savefig("{}/bw.jpg".format(path))
-	plot(_mrtt,'ms',"mrtt").savefig("{}/mrtt.jpg".format(path))
-	plot(_pacing_gain,'s',"pacing gain").savefig("{}/pacing_gain.jpg".format(path))
-	plot(_cwnd_gain,'s',"cwnd gain").savefig("{}/cwnd_gain.jpg".format(path))
+	plot(_mrtt,'s',"MRTT(ms)").savefig("{}/mrtt.jpg".format(path))
+	plot(_pacing_gain,'s',"PACING GAIN").savefig("{}/pacing_gain.jpg".format(path))
+	plot(_cwnd_gain,'s',"CWND GAIn").savefig("{}/cwnd_gain.jpg".format(path))
 	
 	# print(_cwnd_gain)	
+def queuePloter(path):
+	queue = []
+	
+	onlyfiles = [f for f in listdir(path) if isfile(join(path, f)) and "Queue" in f ]
+	for file in onlyfiles:
+		# print(file)
+		f = open(path+"/"+file,"r")
+		_queue = []	
+		for line in f:
+			if("Kb" in line):
+				val = float(line[0])*1000
+				_queue.append(val)
+			else:
+				_queue.append(line[:-2])
+
+		queue.append(_queue)
+
+	plot(queue,'s',"Buffer bytes").savefig("{}/buffer.jpg".format(path))
+
 
 def main():
 	
-	# mypath = "/home/rodrigoluna/Área de Trabalho/UFRJ/TCC/Framework/sw1"
-	# onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-	# print(onlyfiles)
-	# for file in onlyfiles:
-	# 	sending_rate("sw1",file,0.17355421)
+	mypath = "/home/rodrigoluna/Área de Trabalho/UFRJ/TCC/Framework/sw1"
+	onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+	print(onlyfiles)
+	for file in onlyfiles:
+		if(".pcap" in file):
+			sending_rate("sw1",file,0.17355421)
 
 	bbrPloter("/home/rodrigoluna/Área de Trabalho/UFRJ/TCC/Framework/h1")
-
+	queuePloter("/home/rodrigoluna/Área de Trabalho/UFRJ/TCC/Framework/h4")
 
 
 	# print(X)

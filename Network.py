@@ -47,25 +47,26 @@ class Network:
 
 	def traffic_shaping(self,mode, interface, add, **kwargs):
 	    if mode == 'tbf':
-	        command = 'tc qdisc {} dev {} root handle 1: tbf rate {} buffer {} latency {}'.format('add' if add else ' change',interface, kwargs['rate'],
-	        																							kwards['buffer'],kwards['latency'])
-	    elif mode == 'netem_parent':
-	        command = 'tc qdisc {} dev {} parent 1: handle 2: netem delay {} {} {} loss {}'.format('add' if add else ' change',
-                                  		                                      interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'], kwargs['loss'])
-	    elif mode == 'netem_root':
-	    	if kwargs['loss'] == '':
+			command = 'tc qdisc {} dev {} root handle 1: tbf rate {} buffer {} latency {}'.format('add' if add else ' change',interface, kwargs['rate'],kwards['buffer'],kwards['latency'])
+	    if mode == 'netem_parent':
+	    	if(kwargs['loss'] == ''):
 	    		param = ''
 	    	else:
 	    		param = 'loss'
-	    	command = 'tc qdisc {} dev {} root netem delay {} {} {} {} {}'.format('add' if add else ' change',
+	        command = 'tc qdisc {} dev {} parent 5:1 handle 10: netem delay {} {} {} {} {}'.format('add' if add else ' change',
+                                  		                                      interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'],param ,kwargs['loss'])
+	        print(command)
+	    elif mode == 'netem_root':
+	    	command = 'tc qdisc {} dev {} root netem delay {} {} {} loss {}'.format('add' if add else ' change',
                                   		                                      interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'], param ,kwargs['loss'])
 	    	print(command)
 	    return command
 
 	def callSniffer(self,obj,cmd):
 		path = obj.label+"/"
-		if(obj.sniffer['traffic']['status']):	
+		if(obj.sniffer['traffic']['status']):			
 			obj.run_sniffer(path,obj.sniffer['traffic']['intf'])
+			
 		
 		if(obj.sniffer['queue']['status']):
 			obj.run_bufferScript(cmd,path,obj.sniffer['queue']['delta_t'],obj.sniffer['queue']['intf'])
@@ -82,28 +83,16 @@ class Network:
 			
 			#A configuracao do trafego sera realizada sempre no receptor
 			for edge in node.edges:
+				#Configurando parametros de rede					
 				if(edge.h1 == node.label):
+					send.cmd( self.traffic_shaping('netem_parent',interface= edge.intfName1,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss']) )			
 					
-					#Configurando parametros de rede
-					
-					send.cmd( self.traffic_shaping('netem_root',interface= edge.intfName1,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss']) )			
-					# send.cmd("tc qdisc add dev {} parent 5:1 {} limit {}".format(edge.intfName1,node.queue['protocol'],node.queue['length']))
-					
-					# send.cmd("tc qdisc add dev {} parent 5:1 netem delay {} {} {} ".format(edge.intfName1,node.queue['latency'],node.queue['jitter'],node.queue['variation']))
-					
-					# send.cmd("tc qdisc add dev {} parent 5:1 netem loss {} ".format(edge.intfName1,node.queue['loss']))
 				elif(edge.h2 == node.label):
-					send.cmd( self.traffic_shaping('netem_root',interface= edge.intfName2,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss']) )			
-					# 	jitter =node.queue_jitter, variation= node.queue_variation,loss =node.queue_loss) )			
-					# send.cmd("tc qdisc add dev {} parent 5:1 {} limit {}".format(edge.intfName2,node.queue['protocol'],node.queue['length']))
-					
-					# send.cmd("tc qdisc add dev {} parent 5:1 netem delay {} {} {} ".format(edge.intfName2,node.queue['latency'],node.queue['jitter'],node.queue['variation']))
-					
-					# send.cmd("tc qdisc add dev {} parent 5:1 netem loss {} ".format(edge.intfName2,node.queue['loss']))
+					send.cmd( self.traffic_shaping('netem_parent',interface= edge.intfName2,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss']) )			
+
 			
 			#Cria a pasta que tera os arquivos de transferencia
 			send.cmd("mkdir -m 777 {}".format(node.label))
-
 
 			#Setar o IP do send Implementar
 			
@@ -115,18 +104,14 @@ class Network:
 			#Configura o algoritmo de transporte
 			send.cmd("sysctl net.ipv4.tcp_congestion_control={}".format(node.transport_protocol))
 
-
 			#Configurando servidores FTP, caso o host seja
 			#Cada nó cria um servidor FTP.
 			if(node.ftp):
 				node.configServer(send,node.ip)
 
-
 			####Configura sniffer
 			self.callSniffer(node,send)
 			
-	
-
 	def configSwitchs(self,switchs):
 		for switch in switchs:
 			send = self.net.get(switch.label)

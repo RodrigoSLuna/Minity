@@ -11,5 +11,15 @@ class Switch(Sniffer):
 		self.queue = params['queue']
 		self.sniffer = params['sniffer']
 		self.ip = params['ip']
-
 		self.ftp = params['ftp_server']
+
+
+		self.commands = {}
+
+	def configComand(self,params):
+		try:
+			self.commands.append(params)
+		except:
+			lst = []
+			self.commands = lst
+			self.commands.append(params)
