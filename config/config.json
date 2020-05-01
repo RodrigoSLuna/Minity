@@ -177,7 +177,7 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h1-sw1",
 		"intfName2":"h1-sw1",
-		"bw":60,
+		"bw":20,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -188,7 +188,7 @@
 		"VERTICE_2":"sw2",
 		"intfName1":"sw1-eth4",
 		"intfName2":"sw1-sw2",
-		"bw":60,
+		"bw":20,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -199,7 +199,7 @@
 		"VERTICE_2":"sw3",
 		"intfName1":"sw2-sw3",
 		"intfName2":"sw3-eth1",	
-		"bw":60,
+		"bw":10,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -210,11 +210,7 @@
 		"VERTICE_2":"h4",
 		"intfName1":"sw3-h4",
 		"intfName2":"sw3-h4",
-<<<<<<< HEAD:config/config.json
 		"bw":20,
-=======
-		"bw":60,
->>>>>>> parent of f0d6e7a... Adicionado novas features:example.json
 		"buffer":1500,
 		"latency":"0ms", 
 		"loss":0
