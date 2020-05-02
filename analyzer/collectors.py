@@ -1,6 +1,7 @@
 import dpkt
 import os
 import sys
+import socket
 from os import listdir
 from os.path import isfile, join
 import numpy as np
@@ -43,9 +44,13 @@ def format_bbrColumns(df):
 
 
 def to_secs(val):
-    number = get_num(val)
-    if("ms" in val):
-        number *= 0.001
+    number = None
+    if(isinstance(val, str)):
+        number = get_num(val)
+        if("ms" in val):
+            number *= 0.001
+    else:
+        number = val* 0.001
     return number
 
     
@@ -69,9 +74,8 @@ def sending_rate(onlyfiles,delta_t):
     
     datas = []
     for file in onlyfiles:
-        print(file)
         # f = open(path+"/"+file,'rb')
-        f = open(file,"rb")
+        f = open(file,'rb+')
         pcap = dpkt.pcap.Reader(f)
         
 
@@ -91,7 +95,6 @@ def sending_rate(onlyfiles,delta_t):
         connections = {}
         qtd_2 = 0
         for i in range(len(pkts)):
-            print(i)
             qtd_2 += 1
             try:
                 if(start_t == -1):
@@ -131,7 +134,7 @@ def sending_rate(onlyfiles,delta_t):
 
             # total_sending_rate.append(sum_i)
             except Exception as e:
-                print(e)
+                pass
                 # print("ERRO NO PACOTE: ",i)
 
         maxi = 0
