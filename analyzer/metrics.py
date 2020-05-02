@@ -4,6 +4,7 @@ import pandas as pd
 
 
 def plotSendingRate():
+	import matplotlib.pyplot as plt
 	try:
 		df_sr = pd.read_csv('Framework/analyzer/tables/sendingrate.csv')
 	except Exception as e:
@@ -18,7 +19,7 @@ def plotSendingRate():
 		print("File not found")
 		return
 
-	import matplotlib.pyplot as plt
+	
 
 	min_time = -1
 	fair_shared_x = np.array([])
@@ -48,3 +49,4 @@ def plotSendingRate():
 
 	plt.show()
 
+	return plt
