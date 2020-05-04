@@ -30,8 +30,10 @@ def extract(delta_t = 0.17355421):
 	df = sending_rate(sending_files,delta_t)
 	df.to_csv("Framework/analyzer/tables/sendingrate.csv",index=False)
 
+	
 	df = bbrParser(bbr_files)
 	df.to_csv("Framework/analyzer/tables/bbrvalues.csv",index=False)
+
 	df = queueParser(queue_files)
 	df.to_csv("Framework/analyzer/tables/queuevalues.csv",index=False)
 

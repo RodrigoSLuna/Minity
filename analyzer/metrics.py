@@ -50,3 +50,48 @@ def plotSendingRate():
 	plt.show()
 
 	return plt
+
+
+#Plota todos os fluxos, com o seu MRTT e RTT envolvido
+def plotMrttRtt():
+	import matplotlib.pyplot as plt
+
+	try:
+		df_queue = pd.read_csv('Framework/analyzer/tables/queuevalues.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	try:
+		df_bbr = pd.read_csv('Framework/analyzer/tables/bbrvalues.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+	
+	
+	
+	for flow in df_bbr['dst'].unique().tolist():
+		print(flow)
+		df_bbr_aux = df_bbr[ df_bbr['dst'] == flow ]
+
+		df_queue_aux = df_queue[ df_queue['ip'] == flow ]
+
+		x_bbr_vals = df_bbr_aux.time
+		y_bbr_vals = df_bbr_aux.mrtt*1000
+
+		x_queue_vals = df_queue_aux.time
+		y_queue_vals = df_queue_aux.delay*1000
+
+
+		plt.plot(x_queue_vals,y_queue_vals,label="rtt {}".format( flow ))
+		plt.plot(x_bbr_vals,y_bbr_vals, label="mrtt {}".format( flow ) )
+		
+
+	plt.ylabel("RTT vs MRTT (ms)")
+	plt.xlabel("Tempo (s)")
+	plt.legend()
+	plt.title("N fluxos")	
+	plt.show()
+	return plt

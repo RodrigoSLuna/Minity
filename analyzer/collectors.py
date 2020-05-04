@@ -38,8 +38,10 @@ def mrtt_to_secs(val):
     
     
 def format_bbrColumns(df):
+
     df['bw'] = df['bw'].apply(lambda x: rate(x) )
     df['mrtt'] = df['mrtt'].apply(lambda x: mrtt_to_secs(x) ) 
+
     return df.fillna(0)
 
 
@@ -262,20 +264,25 @@ def bbrParser(onlyfiles):
     #                     print(aux)
 
                         #[bw:2.9Mbps],[mrtt:40.398],pacing_gain:2.88672[cwnd_gain:2.88672]
+                        bbrDict = {"mrtt":0, "pacing_gain":1,"cwnd_gain":2,"bw":3}
+                        v1 = [0,0,0,0]
                         for y in aux:
                             aux2 = y.split(':')
                             if(aux2[0]=='bbr'):
+                                v1[ bbrDict[aux2[1]] ] = 1   
                                 try:
                                     data_json.update({aux2[1]:aux2[2]})
                                 except:
                                     data_json = {aux2[1]:aux2[2]}
                             elif(aux2[0] == 'mrtt' or aux2[0] == 'pacing_gain' or aux2[0] == 'cwnd_gain' ):
-                                var = True
+                                v1[ bbrDict[aux2[0]] ] = 1     
                                 try:
                                     data_json.update({aux2[0]:aux2[1]})
                                 except:
                                     data_json = {aux2[0]:aux2[1]}
-            except:
+                        if( sum(v1) == 4 ):
+                            var = True
+            except Exception as e:
                 continue
             time = vals[-1].split(":")
             
@@ -288,7 +295,9 @@ def bbrParser(onlyfiles):
                 
                 data.append(data_json)
         id = id + 1
-    return format_bbrColumns(pd.DataFrame(data))
+    df = pd.DataFrame(data)
+    
+    return format_bbrColumns(df)
 
 def queueParser(onlyfiles):
     # onlyfiles = [f for f in listdir(path) if isfile(join(path, f)) and "Queue" in f ]
