@@ -171,11 +171,11 @@ def plotBW():
 
 		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
 
-		x_bbr_vals = df_bbr_aux.time
-		y_bbr_vals = df_bbr_aux.bw/10**6
+		x_sr_vals = df_sr_aux.time 
+		y_sr_vals = df_sr_aux.rate
 
-		x_sr_vals = df_sr_aux.time
-		y_sr_vals = df_sr_aux.rate/10**6
+		x_bbr_vals = df_bbr_aux.time + x_sr_vals.iloc[0]
+		y_bbr_vals = df_bbr_aux.bw/10**6
 
 
 		plt.plot(x_sr_vals,y_sr_vals,label="BtlBW {}".format( flow ))
