@@ -26,13 +26,16 @@ def get_num(x):
     return float(val)
 
 def rate(val):
-    number = get_num(val)
-    if("K" in val):
-        number *= 1000
-    elif("M" in val):
-        number *= 1000000
-    elif("G" in val):
-        number *= 1000000000
+    try:
+        number = get_num(val)
+        if("K" in val):
+            number *= 1000
+        elif("M" in val):
+            number *= 1000000
+        elif("G" in val):
+            number *= 1000000000
+    except:
+        return val
     return number
 
 def mrtt_to_secs(val):

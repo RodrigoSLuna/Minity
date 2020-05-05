@@ -27,13 +27,13 @@ def plotSendingRate():
 	y_sum = 0
 	i = 0
 	maxi_x = 0
-	for flow in df_sr['dest'].unique().tolist():
+	for flow in df_sr['dst'].unique().tolist():
 		i+=1
 		label = str(round( df_queue[df_queue['ip'] == flow]['delay'].mean()*1000,2)) + "ms"
 		
 		
-		x_vals = df_sr[df_sr['dest']==flow].time
-		y_vals = df_sr[df_sr['dest']==flow].rate
+		x_vals = df_sr[df_sr['dst']==flow].time
+		y_vals = df_sr[df_sr['dst']==flow].rate
 		maxi_x = max(maxi_x,max(x_vals))
 		y_sum += np.mean(y_vals)
 		plt.plot( x_vals,y_vals,label = label  )
@@ -232,4 +232,87 @@ def singleFlowPlotBW():
 		plt.title("N fluxos")
 		plt.show()
 		plt.clf()
+	return plt
+
+
+
+def plotQueue():
+	import matplotlib.pyplot as plt
+
+	try:
+		df_queue = pd.read_csv('Framework/analyzer/tables/queuevalues.csv')
+	except Exception as e:
+			print(e)
+			print("File not found")
+			return
+	try:
+		df_sr = pd.read_csv('Framework/analyzer/tables/sendingrate.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	for flow in df_queue['ip'].unique().tolist():
+		df_queue_aux = df_queue[df_queue['ip'] == flow]
+		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
+		
+		x_queue_vals = df_queue_aux['time'] + x_sr_vals.iloc[0]
+		y_queue_vals = df_queue_aux['backlog']
+		
+		delay = round(np.mean(df_queue_aux['delay'])*1000,2)
+		
+		if(delay > 0.0):
+			plt.plot(x_queue_vals,y_queue_vals, label="delay {}".format(delay ) )
+
+
+	plt.ylabel("Bytes")
+	plt.xlabel("Tempo (s)")
+	plt.legend()
+	plt.title("N fluxos")
+	plt.show()
+	return plt
+
+
+
+def singlePlotQueue():
+	import matplotlib.pyplot as plt
+
+	try:
+		df_queue = pd.read_csv('Framework/analyzer/tables/queuevalues.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+	
+	try:
+		df_sr = pd.read_csv('Framework/analyzer/tables/sendingrate.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	for flow in df_queue['ip'].unique().tolist():
+		try:
+			df_queue_aux = df_queue[df_queue['ip'] == flow]
+		
+			df_sr_aux = df_sr[ df_sr['dst'] == flow ]
+			x_sr_vals = df_sr_aux.time 
+
+			x_queue_vals = df_queue_aux['time'] + x_sr_vals.iloc[0]
+			y_queue_vals = df_queue_aux['backlog']
+		
+			delay = round(np.mean(df_queue_aux['delay'])*1000,2)
+		
+			if(delay > 0.0):
+				plt.plot(x_queue_vals,y_queue_vals, label="delay {}".format(delay ) )
+
+
+				plt.ylabel("Bytes")
+				plt.xlabel("Tempo (s)")
+				plt.legend()
+				plt.title("1 Fluxo")
+				plt.show()
+				plt.clf()
+		except:
+			pass
 	return plt
