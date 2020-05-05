@@ -14,11 +14,15 @@ from pandas.io.json import json_normalize
 
 def get_num(x):
     val = ''
-    for ele in x:
-        if(ele.isdigit() or ele == '.'):
-            val += ele
-        else:
-            break
+    try:
+        for ele in x:
+            if(ele.isdigit() or ele == '.'):
+                val += ele
+            else:
+                break
+    except:
+        val = x
+
     return float(val)
 
 def rate(val):
@@ -180,8 +184,7 @@ def sending_rate(onlyfiles,delta_t):
                     maxi = max(maxi,len(tcp_i.data))
                     i+=1
                 times.append(time)
-                # print(i,t + delta_t- start_t,sum_i)
-                #Faltou agregar o tempo necessario para todos
+                
                 try:
                     sums = connections_sending_rate[key]
                     sums.append( ( t+delta_t- start_t ,sum_i/(delta_t*1000000) ) )
@@ -193,14 +196,6 @@ def sending_rate(onlyfiles,delta_t):
                 t = t+delta_t
         f.close()
 
-
-        # for time in times:
-        #   print(len(time),time)
-        # print("NOT USED", times_not_used)
-
-
-        #Melhorar o plot.
-
         val = 0
 
         
@@ -208,7 +203,7 @@ def sending_rate(onlyfiles,delta_t):
             for x in connections_sending_rate[key]:
                 data_json = {"src":key[0]}
                 data_json.update({"sport":key[1]})
-                data_json.update({"dest":key[2]})
+                data_json.update({"dst":key[2]})
                 data_json.update({"dport":key[3]})
                 data_json.update({'time':x[0]})
                 data_json.update({'rate':x[1]})
@@ -282,18 +277,25 @@ def bbrParser(onlyfiles):
                                     data_json = {aux2[0]:aux2[1]}
                         if( sum(v1) == 4 ):
                             var = True
+                        else:
+                            data_json.update({"mrtt":0.0,
+                                                "pacing_gain":0.0,
+                                                "cwnd_gain":0.0,
+                                                "bw":"0.0Mbps"
+                                            })
+
             except Exception as e:
                 continue
             time = vals[-1].split(":")
             
             time_s = float(time[0])*60 + float(time[1]) + 0.001*float(time[2][:-1])
-            if(var):
-                if(start == -1):
-                    start = time_s
-                data_json.update({"time":time_s - start}) 
-                data_json.update({"id":id})
+            
+            if(start == -1):
+                start = time_s
+            data_json.update({"time":time_s - start}) 
+            data_json.update({"id":id})
                 
-                data.append(data_json)
+            data.append(data_json)
         id = id + 1
     df = pd.DataFrame(data)
     
@@ -334,6 +336,7 @@ def queueParser(onlyfiles):
                 data_json.update({"id":id})
                 data.append(data_json)
             else:
+                #Criar um data vazio, mas com o time.
                 continue
         id = id + 1
 #     df_aux = pd.DataFrame.from_dict(json_normalize(data_json), orient='columns')
