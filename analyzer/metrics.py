@@ -116,7 +116,8 @@ def singleFlowPlotMrttRtt():
 		print("File not found")
 		return
 	
-	
+	df_queue = mean_df(df_queue,'ip','delay','time')
+	df_bbr   = mean_df(df_bbr,'dst','mrtt','time')
 	
 	for flow in df_bbr['dst'].unique().tolist():
 		
@@ -164,7 +165,8 @@ def plotBW():
 		print("File not found")
 		return
 
-
+	df_sr = mean_df(df_sr,'dst','rate','time')
+	df_bbr   = mean_df(df_bbr,'dst','bw','time')
 	for flow in df_bbr['dst'].unique().tolist():
 		
 		df_bbr_aux = df_bbr[ df_bbr['dst'] == flow ]
@@ -206,6 +208,8 @@ def singleFlowPlotBW():
 		print("File not found")
 		return
 
+	df_sr = mean_df(df_sr,'dst','rate','time')
+	df_bbr   = mean_df(df_bbr,'dst','bw','time')
 
 	for flow in df_bbr['dst'].unique().tolist():
 		
@@ -252,12 +256,14 @@ def plotQueue():
 		print("File not found")
 		return
 
+	df_queue = df_mean(df_queue,'ip','backlog','time')
 	for flow in df_queue['ip'].unique().tolist():
 		df_queue_aux = df_queue[df_queue['ip'] == flow]
 		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
-		
-		x_queue_vals = df_queue_aux['time'] + x_sr_vals.iloc[0]
-		y_queue_vals = df_queue_aux['backlog']
+		x_sr_vals = df_sr_aux.time 
+
+		x_queue_vals = df_queue_aux['time_mean'] + x_sr_vals.iloc[0]
+		y_queue_vals = df_queue_aux['backlog_mean']
 		
 		delay = round(np.mean(df_queue_aux['delay'])*1000,2)
 		
@@ -291,6 +297,7 @@ def singlePlotQueue():
 		print("File not found")
 		return
 
+	df_queue = df_mean(df_queue,'ip','backlog','time')
 	for flow in df_queue['ip'].unique().tolist():
 		try:
 			df_queue_aux = df_queue[df_queue['ip'] == flow]
@@ -298,8 +305,8 @@ def singlePlotQueue():
 			df_sr_aux = df_sr[ df_sr['dst'] == flow ]
 			x_sr_vals = df_sr_aux.time 
 
-			x_queue_vals = df_queue_aux['time'] + x_sr_vals.iloc[0]
-			y_queue_vals = df_queue_aux['backlog']
+			x_queue_vals = df_queue_aux['time_mean'] + x_sr_vals.iloc[0]
+			y_queue_vals = df_queue_aux['backlog_mean']
 		
 			delay = round(np.mean(df_queue_aux['delay'])*1000,2)
 		
