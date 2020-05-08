@@ -219,11 +219,11 @@ def singleFlowPlotBW():
 
 
 
-		x_sr_vals = df_sr_aux.time 
-		y_sr_vals = df_sr_aux.rate
+		x_sr_vals = df_sr_aux.time_mean 
+		y_sr_vals = df_sr_aux.rate_mean
 
-		x_bbr_vals = df_bbr_aux.time + x_sr_vals.iloc[0]
-		y_bbr_vals = df_bbr_aux.bw/10**6
+		x_bbr_vals = df_bbr_aux.time_mean + x_sr_vals.iloc[0]
+		y_bbr_vals = df_bbr_aux.bw_mean/10**6
 		
 		
 		plt.plot(x_sr_vals,y_sr_vals,label="BtlBW {}".format( flow ))
@@ -256,7 +256,7 @@ def plotQueue():
 		print("File not found")
 		return
 
-	df_queue = df_mean(df_queue,'ip','backlog','time')
+	df_queue = mean_df(df_queue,'ip','backlog','time')
 	for flow in df_queue['ip'].unique().tolist():
 		df_queue_aux = df_queue[df_queue['ip'] == flow]
 		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
@@ -297,7 +297,7 @@ def singlePlotQueue():
 		print("File not found")
 		return
 
-	df_queue = df_mean(df_queue,'ip','backlog','time')
+	df_queue = mean_df(df_queue,'ip','backlog','time')
 	for flow in df_queue['ip'].unique().tolist():
 		try:
 			df_queue_aux = df_queue[df_queue['ip'] == flow]
