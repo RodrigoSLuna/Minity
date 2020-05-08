@@ -226,79 +226,81 @@ def bbrParser(onlyfiles):
         f = open(file,"r")
         start = -1
         for line in f:
-            
-            data_json = {}
-            
-            line = line.split(" ")
-            vals = []
-            var = False
-            for x in line:
-                if(x != '' and x != '\t'):
-                    vals.append(x)
             try:    
-                source = vals[10].split(':')
-                dest = vals[11].split(':')
-                data_json = {'src':source[0]}
-                data_json.update( {'sport':source[1]})
-                data_json.update( {'dst':dest[0]})
-                data_json.update( {'dport':dest[1]})
+                data_json = {}
                 
-#                 print(vals[10],vals[11])
-                words = ['cwnd:','bbr:']
-                for x in vals:
-                    if('cwnd:' in x):
-                        aux = x.split(':')
-                        try:
-                            data_json.update({aux[0] :aux[1]})
-                        except:
-                            data_json = {aux[0]:aux[1]}
-                    elif("bbr:" in x ):
+                line = line.split(" ")
+                vals = []
+                var = False
+                for x in line:
+                    if(x != '' and x != '\t'):
+                        vals.append(x)
+                try:    
+                    source = vals[10].split(':')
+                    dest = vals[11].split(':')
+                    data_json = {'src':source[0]}
+                    data_json.update( {'sport':source[1]})
+                    data_json.update( {'dst':dest[0]})
+                    data_json.update( {'dport':dest[1]})
+                    
+    #                 print(vals[10],vals[11])
+                    words = ['cwnd:','bbr:']
+                    for x in vals:
+                        if('cwnd:' in x):
+                            aux = x.split(':')
+                            try:
+                                data_json.update({aux[0] :aux[1]})
+                            except:
+                                data_json = {aux[0]:aux[1]}
+                        elif("bbr:" in x ):
 
-                        aux = x.replace('(','')
+                            aux = x.replace('(','')
 
-                        aux = aux.replace(')','')
-                        aux = aux.split(',')
+                            aux = aux.replace(')','')
+                            aux = aux.split(',')
 
-    #                     print(aux)
+        #                     print(aux)
 
-                        #[bw:2.9Mbps],[mrtt:40.398],pacing_gain:2.88672[cwnd_gain:2.88672]
-                        bbrDict = {"mrtt":0, "pacing_gain":1,"cwnd_gain":2,"bw":3}
-                        v1 = [0,0,0,0]
-                        for y in aux:
-                            aux2 = y.split(':')
-                            if(aux2[0]=='bbr'):
-                                v1[ bbrDict[aux2[1]] ] = 1   
-                                try:
-                                    data_json.update({aux2[1]:aux2[2]})
-                                except:
-                                    data_json = {aux2[1]:aux2[2]}
-                            elif(aux2[0] == 'mrtt' or aux2[0] == 'pacing_gain' or aux2[0] == 'cwnd_gain' ):
-                                v1[ bbrDict[aux2[0]] ] = 1     
-                                try:
-                                    data_json.update({aux2[0]:aux2[1]})
-                                except:
-                                    data_json = {aux2[0]:aux2[1]}
-                        if( sum(v1) == 4 ):
-                            var = True
-                        else:
-                            data_json.update({"mrtt":0.0,
-                                                "pacing_gain":0.0,
-                                                "cwnd_gain":0.0,
-                                                "bw":"0.0Mbps"
-                                            })
+                            #[bw:2.9Mbps],[mrtt:40.398],pacing_gain:2.88672[cwnd_gain:2.88672]
+                            bbrDict = {"mrtt":0, "pacing_gain":1,"cwnd_gain":2,"bw":3}
+                            v1 = [0,0,0,0]
+                            for y in aux:
+                                aux2 = y.split(':')
+                                if(aux2[0]=='bbr'):
+                                    v1[ bbrDict[aux2[1]] ] = 1   
+                                    try:
+                                        data_json.update({aux2[1]:aux2[2]})
+                                    except:
+                                        data_json = {aux2[1]:aux2[2]}
+                                elif(aux2[0] == 'mrtt' or aux2[0] == 'pacing_gain' or aux2[0] == 'cwnd_gain' ):
+                                    v1[ bbrDict[aux2[0]] ] = 1     
+                                    try:
+                                        data_json.update({aux2[0]:aux2[1]})
+                                    except:
+                                        data_json = {aux2[0]:aux2[1]}
+                            if( sum(v1) == 4 ):
+                                var = True
+                            else:
+                                data_json.update({"mrtt":0.0,
+                                                    "pacing_gain":0.0,
+                                                    "cwnd_gain":0.0,
+                                                    "bw":"0.0Mbps"
+                                                })
 
+                except Exception as e:
+                    continue
+                time = vals[-1].split(":")
+                
+                time_s = float(time[0])*60 + float(time[1]) + 0.001*float(time[2][:-1])
+                
+                if(start == -1):
+                    start = time_s
+                data_json.update({"time":time_s - start}) 
+                data_json.update({"id":id})
+                    
+                data.append(data_json)
             except Exception as e:
                 continue
-            time = vals[-1].split(":")
-            
-            time_s = float(time[0])*60 + float(time[1]) + 0.001*float(time[2][:-1])
-            
-            if(start == -1):
-                start = time_s
-            data_json.update({"time":time_s - start}) 
-            data_json.update({"id":id})
-                
-            data.append(data_json)
         id = id + 1
     df = pd.DataFrame(data)
     

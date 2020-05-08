@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-
+from ..utils import mean_df
 
 
 def plotSendingRate():
@@ -20,7 +20,7 @@ def plotSendingRate():
 		return
 
 	
-
+	df_sr = mean_df(df_sr,'dst','rate','time')
 	min_time = -1
 	fair_shared_x = np.array([])
 	fair_shared_y = np.array([])
@@ -32,8 +32,8 @@ def plotSendingRate():
 		label = str(round( df_queue[df_queue['ip'] == flow]['delay'].mean()*1000,2)) + "ms"
 		
 		
-		x_vals = df_sr[df_sr['dst']==flow].time
-		y_vals = df_sr[df_sr['dst']==flow].rate
+		x_vals = df_sr[df_sr['dst']==flow].time_mean
+		y_vals = df_sr[df_sr['dst']==flow].rate_mean
 		maxi_x = max(maxi_x,max(x_vals))
 		y_sum += np.mean(y_vals)
 		plt.plot( x_vals,y_vals,label = label  )
@@ -70,19 +70,19 @@ def plotMrttRtt():
 		print("File not found")
 		return
 	
-	
-	
+	df_queue = mean_df(df_queue,'ip','delay','time')
+	df_bbr   = mean_df(df_bbr,'dst','mrtt','time')
 	for flow in df_bbr['dst'].unique().tolist():
 		
 		df_bbr_aux = df_bbr[ df_bbr['dst'] == flow ]
 
 		df_queue_aux = df_queue[ df_queue['ip'] == flow ]
 
-		x_bbr_vals = df_bbr_aux.time
-		y_bbr_vals = df_bbr_aux.mrtt*1000
+		x_bbr_vals = df_bbr_aux.time_mean
+		y_bbr_vals = df_bbr_aux.mrtt_mean*1000
 
-		x_queue_vals = df_queue_aux.time
-		y_queue_vals = df_queue_aux.delay*1000
+		x_queue_vals = df_queue_aux.time_mean
+		y_queue_vals = df_queue_aux.delay_mean*1000
 
 
 		plt.plot(x_queue_vals,y_queue_vals,label="rtt {}".format( flow ))
