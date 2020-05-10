@@ -191,6 +191,253 @@ def plotBW():
 	plt.show()
 	return plt
 
+
+def plotCWND():
+	import matplotlib.pyplot as plt
+
+	try:
+		df_sr = pd.read_csv('Framework/analyzer/tables/sendingrate.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	try:
+		df_bbr = pd.read_csv('Framework/analyzer/tables/bbrvalues.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	df_bbr   = mean_df(df_bbr,'dst','cwnd','time')
+	for flow in df_bbr['dst'].unique().tolist():
+		
+		df_bbr_aux = df_bbr[ df_bbr['dst'] == flow ]
+
+		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
+
+		x_sr_vals = df_sr_aux.time 
+
+		x_bbr_vals = df_bbr_aux.time + x_sr_vals.iloc[0]
+		y_bbr_vals = df_bbr_aux.cwnd_mean
+
+
+		plt.plot(x_bbr_vals,y_bbr_vals, label="cwnd {}".format( flow ) )
+
+
+	plt.ylabel("CWND")
+	plt.xlabel("Tempo (s)")
+	plt.legend()
+	plt.title("N fluxos")
+	plt.show()
+	return plt
+
+def plotPG():
+	import matplotlib.pyplot as plt
+
+	try:
+		df_sr = pd.read_csv('Framework/analyzer/tables/sendingrate.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	try:
+		df_bbr = pd.read_csv('Framework/analyzer/tables/bbrvalues.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	df_bbr   = mean_df(df_bbr,'dst','pacing_gain','time')
+	for flow in df_bbr['dst'].unique().tolist():
+		
+		df_bbr_aux = df_bbr[ df_bbr['dst'] == flow ]
+
+		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
+
+		x_sr_vals = df_sr_aux.time 
+
+		x_bbr_vals = df_bbr_aux.time + x_sr_vals.iloc[0]
+		y_bbr_vals = df_bbr_aux.pacing_gain_mean
+
+
+		plt.plot(x_bbr_vals,y_bbr_vals, label="pacing gain {}".format( flow ) )
+
+
+	plt.ylabel("Mbit/s ")
+	plt.xlabel("Tempo (s)")
+	plt.legend()
+	plt.title("N fluxos")
+	plt.show()
+	return plt
+def singlePlotCWND():
+	import matplotlib.pyplot as plt
+
+	try:
+		df_sr = pd.read_csv('Framework/analyzer/tables/sendingrate.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	try:
+		df_bbr = pd.read_csv('Framework/analyzer/tables/bbrvalues.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	df_bbr   = mean_df(df_bbr,'dst','cwnd','time')
+	for flow in df_bbr['dst'].unique().tolist():
+		
+		df_bbr_aux = df_bbr[ df_bbr['dst'] == flow ]
+
+		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
+
+		x_sr_vals = df_sr_aux.time 
+
+		x_bbr_vals = df_bbr_aux.time + x_sr_vals.iloc[0]
+		y_bbr_vals = df_bbr_aux.cwnd_mean
+
+
+		plt.plot(x_bbr_vals,y_bbr_vals, label="cwnd {}".format( flow ) )
+
+
+		plt.ylabel("CWND")
+		plt.xlabel("Tempo (s)")
+		plt.legend()
+		plt.title("N fluxos")
+		plt.show()
+	return plt
+
+
+def plotCG():
+	import matplotlib.pyplot as plt
+
+	try:
+		df_sr = pd.read_csv('Framework/analyzer/tables/sendingrate.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	try:
+		df_bbr = pd.read_csv('Framework/analyzer/tables/bbrvalues.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	df_bbr   = mean_df(df_bbr,'dst','cwnd_gain','time')
+	for flow in df_bbr['dst'].unique().tolist():
+		
+		df_bbr_aux = df_bbr[ df_bbr['dst'] == flow ]
+
+		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
+
+		x_sr_vals = df_sr_aux.time 
+
+		x_bbr_vals = df_bbr_aux.time + x_sr_vals.iloc[0]
+		y_bbr_vals = df_bbr_aux.cwnd_gain_mean
+
+
+		plt.plot(x_bbr_vals,y_bbr_vals, label="cwnd gain {}".format( flow ) )
+
+
+	plt.ylabel("CWND")
+	plt.xlabel("Tempo (s)")
+	plt.legend()
+	plt.title("N fluxos")
+	plt.show()
+	return plt
+
+
+def singlePlotCG():
+	import matplotlib.pyplot as plt
+
+	try:
+		df_sr = pd.read_csv('Framework/analyzer/tables/sendingrate.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	try:
+		df_bbr = pd.read_csv('Framework/analyzer/tables/bbrvalues.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	df_bbr   = mean_df(df_bbr,'dst','cwnd_gain','time')
+	for flow in df_bbr['dst'].unique().tolist():
+		
+		df_bbr_aux = df_bbr[ df_bbr['dst'] == flow ]
+
+		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
+
+		x_sr_vals = df_sr_aux.time 
+
+		x_bbr_vals = df_bbr_aux.time + x_sr_vals.iloc[0]
+		y_bbr_vals = df_bbr_aux.cwnd_gain_mean
+
+
+		plt.plot(x_bbr_vals,y_bbr_vals, label="cwnd gain {}".format( flow ) )
+
+
+		plt.ylabel("CWND")
+		plt.xlabel("Tempo (s)")
+		plt.legend()
+		plt.title("N fluxos")
+		plt.show()
+	return plt
+
+
+
+def singlePlotPG():
+	import matplotlib.pyplot as plt
+
+	try:
+		df_sr = pd.read_csv('Framework/analyzer/tables/sendingrate.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	try:
+		df_bbr = pd.read_csv('Framework/analyzer/tables/bbrvalues.csv')
+	except Exception as e:
+		print(e)
+		print("File not found")
+		return
+
+	df_bbr   = mean_df(df_bbr,'dst','pacing_gain','time')
+	for flow in df_bbr['dst'].unique().tolist():
+		
+		df_bbr_aux = df_bbr[ df_bbr['dst'] == flow ]
+
+		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
+
+		x_sr_vals = df_sr_aux.time 
+
+		x_bbr_vals = df_bbr_aux.time + x_sr_vals.iloc[0]
+		y_bbr_vals = df_bbr_aux.pacing_gain_mean
+
+
+		plt.plot(x_bbr_vals,y_bbr_vals, label="flow {}".format( flow ) )
+
+
+		plt.ylabel("Pacing Gain ")
+		plt.xlabel("Tempo (s)")
+		plt.legend()
+		plt.title("N fluxos")
+		plt.show()
+	return plt
+
+
+
+
 def singleFlowPlotBW():
 	import matplotlib.pyplot as plt
 
@@ -230,7 +477,7 @@ def singleFlowPlotBW():
 		plt.plot(x_bbr_vals,y_bbr_vals, label="Estimated {}".format( flow ) )
 
 
-		plt.ylabel("Mbit/s ")
+		plt.ylabel("Pacing Gain ")
 		plt.xlabel("Tempo (s)")
 		plt.legend()
 		plt.title("N fluxos")
