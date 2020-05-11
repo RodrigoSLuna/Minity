@@ -505,18 +505,20 @@ def plotQueue():
 
 	df_queue = mean_df(df_queue,'ip','backlog','time')
 	for flow in df_queue['ip'].unique().tolist():
-		df_queue_aux = df_queue[df_queue['ip'] == flow]
-		df_sr_aux = df_sr[ df_sr['dst'] == flow ]
-		x_sr_vals = df_sr_aux.time 
+		try:
+			df_queue_aux = df_queue[df_queue['ip'] == flow]
+			df_sr_aux = df_sr[ df_sr['dst'] == flow ]
+			x_sr_vals = df_sr_aux.time 
 
-		x_queue_vals = df_queue_aux['time_mean'] + x_sr_vals.iloc[0]
-		y_queue_vals = df_queue_aux['backlog_mean']
-		
-		delay = round(np.mean(df_queue_aux['delay'])*1000,2)
-		
-		if(delay > 0.0):
-			plt.plot(x_queue_vals,y_queue_vals, label="delay {}".format(delay ) )
-
+			x_queue_vals = df_queue_aux['time_mean'] + x_sr_vals.iloc[0]
+			y_queue_vals = df_queue_aux['backlog_mean']
+			
+			delay = round(np.mean(df_queue_aux['delay'])*1000,2)
+			
+			if(delay > 0.0):
+				plt.plot(x_queue_vals,y_queue_vals, label="delay {}".format(delay ) )
+		except:
+			pass
 
 	plt.ylabel("Bytes")
 	plt.xlabel("Tempo (s)")

@@ -28,7 +28,7 @@ def extract(delta_t = 0.17355421):
 	
    		
 	df = sending_rate(sending_files,delta_t)
-	df.to_csv("Framework/analyzer/tables/sendingrate.csv",index=False)
+	df.to_csv("Framework/analyzer/tables/sendingrate.csv",mode="w",index=False)
 
 	
 	df = bbrParser(bbr_files)
