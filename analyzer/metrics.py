@@ -438,7 +438,7 @@ def singlePlotPG():
 
 
 
-def singleFlowPlotBW():
+def singlePlotBW():
 	import matplotlib.pyplot as plt
 
 	try:
@@ -477,7 +477,7 @@ def singleFlowPlotBW():
 		plt.plot(x_bbr_vals,y_bbr_vals, label="Estimated {}".format( flow ) )
 
 
-		plt.ylabel("Pacing Gain ")
+		plt.ylabel("Mbit/s ")
 		plt.xlabel("Tempo (s)")
 		plt.legend()
 		plt.title("N fluxos")
