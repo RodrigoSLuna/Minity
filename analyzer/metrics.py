@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from ..utils import mean_df
-
+from .extractor import *
 
 def plotSendingRate():
 	import matplotlib.pyplot as plt
@@ -36,7 +36,7 @@ def plotSendingRate():
 		y_vals = df_sr[df_sr['dst']==flow].rate_mean
 		maxi_x = max(maxi_x,max(x_vals))
 		y_sum += np.mean(y_vals)
-		plt.plot( x_vals,y_vals,label = label  )
+		plt.plot( x_vals,y_vals,label = "ip: {} rtt: {}".format(flow,label)  )
 
 	y_sum /= i
 
@@ -45,10 +45,10 @@ def plotSendingRate():
 	plt.ylabel("Taxa de Envio [Mbit/s]")
 	plt.xlabel("Tempo (s)")
 	plt.legend()
-	plt.title("N fluxos")
+	plt.title("Sending Rate - N fluxos")
 
 	plt.show()
-
+	plt.savefig("Framework/results/sendingrateNflows.png")
 	return plt
 
 
@@ -89,11 +89,12 @@ def plotMrttRtt():
 		plt.plot(x_bbr_vals,y_bbr_vals, label="mrtt {}".format( flow ) )
 		
 
-	plt.ylabel("RTT vs MRTT (ms)")
+	plt.ylabel("ms")
 	plt.xlabel("Tempo (s)")
 	plt.legend()
-	plt.title("N fluxos")	
+	plt.title("RTT vs MRTT - N fluxos")	
 	plt.show()
+	plt.savefig("Framework/results/MrttRttNflows.png")
 	return plt
 
 
@@ -136,11 +137,12 @@ def singleFlowPlotMrttRtt():
 		plt.plot(x_bbr_vals,y_bbr_vals, label="mrtt {}".format( flow ) )
 		
 
-		plt.ylabel("RTT vs MRTT (ms)")
+		plt.ylabel("(ms)")
 		plt.xlabel("Tempo (s)")
 		plt.legend()
-		plt.title("N fluxos")	
+		plt.title("RTT vs MRTT - 1 fluxo")	
 		plt.show()
+		plt.savefig("Framework/results/MrttRtt_{}.png".format(flow.replace(".","_")))
 		plt.clf()
 	return plt
 
@@ -187,7 +189,8 @@ def plotBW():
 	plt.ylabel("Mbit/s ")
 	plt.xlabel("Tempo (s)")
 	plt.legend()
-	plt.title("N fluxos")
+	plt.title("BtlBW vs EstimatedBW - N fluxos")
+	plt.savefig("Framework/results/BWEstimatedNFlows.png")
 	plt.show()
 	return plt
 
@@ -225,10 +228,11 @@ def plotCWND():
 		plt.plot(x_bbr_vals,y_bbr_vals, label="cwnd {}".format( flow ) )
 
 
-	plt.ylabel("CWND")
+	plt.ylabel("Segments")
 	plt.xlabel("Tempo (s)")
 	plt.legend()
-	plt.title("N fluxos")
+	plt.title("Congestion Windown - N fluxos")
+	plt.savefig("Framework/results/CWNDNflow.png")
 	plt.show()
 	return plt
 
@@ -262,15 +266,17 @@ def plotPG():
 		y_bbr_vals = df_bbr_aux.pacing_gain_mean
 
 
-		plt.plot(x_bbr_vals,y_bbr_vals, label="pacing gain {}".format( flow ) )
+		plt.plot(x_bbr_vals,y_bbr_vals, label="ip {}".format( flow ) )
 
 
-	plt.ylabel("Mbit/s ")
+	plt.ylabel("Factor")
 	plt.xlabel("Tempo (s)")
 	plt.legend()
-	plt.title("N fluxos")
+	plt.title("Pacing Gain - N fluxos")
+	plt.savefig("Framework/results/PacingGainNflow.png")
 	plt.show()
 	return plt
+
 def singlePlotCWND():
 	import matplotlib.pyplot as plt
 
@@ -301,13 +307,14 @@ def singlePlotCWND():
 		y_bbr_vals = df_bbr_aux.cwnd_mean
 
 
-		plt.plot(x_bbr_vals,y_bbr_vals, label="cwnd {}".format( flow ) )
+		plt.plot(x_bbr_vals,y_bbr_vals, label="ip {}".format( flow ) )
 
 
-		plt.ylabel("CWND")
+		plt.ylabel("Segments")
 		plt.xlabel("Tempo (s)")
 		plt.legend()
-		plt.title("N fluxos")
+		plt.title("Congestion Windown - 1 fluxo")
+		plt.savefig("Framework/results/CWND_{}.png".format(flow.replace(".","_")))
 		plt.show()
 	return plt
 
@@ -342,13 +349,14 @@ def plotCG():
 		y_bbr_vals = df_bbr_aux.cwnd_gain_mean
 
 
-		plt.plot(x_bbr_vals,y_bbr_vals, label="cwnd gain {}".format( flow ) )
+		plt.plot(x_bbr_vals,y_bbr_vals, label="ip {}".format( flow ) )
 
 
-	plt.ylabel("CWND")
+	plt.ylabel("Factor")
 	plt.xlabel("Tempo (s)")
 	plt.legend()
-	plt.title("N fluxos")
+	plt.savefig("Framework/results/CWNDGAIN.png")
+	plt.title("Congestion Windown Gain - N fluxos")
 	plt.show()
 	return plt
 
@@ -383,13 +391,14 @@ def singlePlotCG():
 		y_bbr_vals = df_bbr_aux.cwnd_gain_mean
 
 
-		plt.plot(x_bbr_vals,y_bbr_vals, label="cwnd gain {}".format( flow ) )
+		plt.plot(x_bbr_vals,y_bbr_vals, label="ip {}".format( flow ) )
 
 
-		plt.ylabel("CWND")
+		plt.ylabel("Factor")
 		plt.xlabel("Tempo (s)")
 		plt.legend()
-		plt.title("N fluxos")
+		plt.title("Congestion Windown Gain - 1 fluxo")
+		plt.savefig("Framework/results/CWNDGAIN_{}.png".format( flow.replace(".","_") ) )
 		plt.show()
 	return plt
 
@@ -425,13 +434,14 @@ def singlePlotPG():
 		y_bbr_vals = df_bbr_aux.pacing_gain_mean
 
 
-		plt.plot(x_bbr_vals,y_bbr_vals, label="flow {}".format( flow ) )
+		plt.plot(x_bbr_vals,y_bbr_vals, label="ip {}".format( flow ) )
 
 
-		plt.ylabel("Pacing Gain ")
+		plt.ylabel("Factor")
 		plt.xlabel("Tempo (s)")
 		plt.legend()
-		plt.title("N fluxos")
+		plt.savefig("Framework/results/PacingGain_{}.png".format( flow.replace(".","_") ) )
+		plt.title("Pacing Gain - 1 fluxo")
 		plt.show()
 	return plt
 
@@ -477,11 +487,12 @@ def singlePlotBW():
 		plt.plot(x_bbr_vals,y_bbr_vals, label="Estimated {}".format( flow ) )
 
 
-		plt.ylabel("Mbit/s ")
+		plt.ylabel("Mbit/s")
 		plt.xlabel("Tempo (s)")
 		plt.legend()
-		plt.title("N fluxos")
+		plt.title("BtleBW vs Estimated - 1 fluxo")
 		plt.show()
+		plt.savefig("Framework/results/BWEstimated_{}.png".format( flow.replace(".","_") ) )
 		plt.clf()
 	return plt
 
@@ -516,14 +527,15 @@ def plotQueue():
 			delay = round(np.mean(df_queue_aux['delay'])*1000,2)
 			
 			if(delay > 0.0):
-				plt.plot(x_queue_vals,y_queue_vals, label="delay {}".format(delay ) )
+				plt.plot(x_queue_vals,y_queue_vals, label="delay {} ip {}".format(delay,flow ) )
 		except:
 			pass
 
 	plt.ylabel("Bytes")
 	plt.xlabel("Tempo (s)")
 	plt.legend()
-	plt.title("N fluxos")
+	plt.title("Queue buffer - N fluxos")
+	plt.savefig("Framework/results/QueueBufferNFlows.png")
 	plt.show()
 	return plt
 
@@ -548,6 +560,7 @@ def singlePlotQueue():
 
 	df_queue = mean_df(df_queue,'ip','backlog','time')
 	for flow in df_queue['ip'].unique().tolist():
+		print(flow)
 		try:
 			df_queue_aux = df_queue[df_queue['ip'] == flow]
 		
@@ -560,15 +573,43 @@ def singlePlotQueue():
 			delay = round(np.mean(df_queue_aux['delay'])*1000,2)
 		
 			if(delay > 0.0):
-				plt.plot(x_queue_vals,y_queue_vals, label="delay {}".format(delay ) )
+				plt.plot(x_queue_vals,y_queue_vals, label="delay {}, ip {}".format(delay,flow ) )
 
 
 				plt.ylabel("Bytes")
 				plt.xlabel("Tempo (s)")
 				plt.legend()
-				plt.title("1 Fluxo")
+				plt.title("Queue Buffer - 1 Fluxo")
+				plt.savefig("Framework/results/QueueBuffer_{}.png".format( flow.replace(".","_") ))
 				plt.show()
 				plt.clf()
 		except:
 			pass
 	return plt
+
+
+def run(cli=False,iperf=False):
+	print("Extraindo informações das tabelas")
+	extract()
+	print("Plot singlePlotQueue")
+	singlePlotQueue()
+	print("Plot plotQueue")
+	plotQueue()
+	print("Plot plotBW")
+	singlePlotBW()
+	print("Plot singlePlotPG")
+	singlePlotPG()
+	print("Plot singlePlotCG")
+	singlePlotCG()
+	print("Plot plotCG")
+	plotCG()
+	print("Plot singlePlotCWND")
+	singlePlotCWND()
+	print("Plot BW")
+	plotBW()
+	print("Plot singlePlotMrttRtt")
+	singleFlowPlotMrttRtt()
+	print("Plot plotMrttRtt")
+	plotMrttRtt()
+	print("Plot plotSendingRate")
+	plotSendingRate()

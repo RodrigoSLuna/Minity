@@ -9,16 +9,16 @@ import re
 from mininet.node import CPULimitedHost
 from mininet.link import TCLink
 from mininet.node import RemoteController
-# sys.path.append('../utils')
+sys.path.append('./utils')
 from  .. utils import *
-
+# from .utils import algorithms
 class Network:
 
 	def __init__(self, Topo):
 		self.Topo = Topo
 		self.net = Mininet(topo=Topo,host=CPULimitedHost,link=TCLink,autoStaticArp=True)
 		# self.net.start()
-
+		
 	#Função que configura os Hosts internamente e externamente.
 	#Configurações de Queue, Algoritmo da Camada de Transporte
 	#Configurações de banda, e perda em cada Host.
@@ -46,24 +46,22 @@ class Network:
 	#https://lartc.org/howto/lartc.qdisc.classful.html
 	#https://lartc.org/howto/lartc.qdisc.filters.html
 
-	def traffic_shaping(self,mode, interface, add, **kwargs):
-	    if mode == 'tbf':
+	def trafficShaping(self,mode, interface, add, **kwargs):
+		if mode == 'tbf':
 			command = 'tc qdisc {} dev {} root handle 1: tbf rate {} buffer {} latency {}'.format('add' if add else ' change',interface, kwargs['rate'],kwards['buffer'],kwards['latency'])
 
 
-	    if mode == 'netem_parent':
-	    	if(kwargs['loss'] == ''):
-	    		param = ''
-	    	else:
-	    		param = 'loss'
-	        command = 'tc qdisc {} dev {} parent 5:1 handle 10: netem delay {} {} {} {} {}'.format('add' if add else ' change',
-                                  		                                      interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'],param ,kwargs['loss'])
-	        print(command)
-	    elif mode == 'netem_root':
-	    	command = 'tc qdisc {} dev {} root netem delay {} {} {} loss {}'.format('add' if add else ' change',
-                                  		                                      interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'], param ,kwargs['loss'])
-	    	print(command)
-	    return command
+		if mode == 'netem_parent':
+			if(kwargs['loss'] == ''):
+				param = ''
+			else:
+				param = 'loss'
+			command = 'tc qdisc {} dev {} parent 5:1 handle 10: netem delay {} {} {} {} {}'.format('add' if add else ' change',interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'],param ,kwargs['loss'])
+			print(command)
+		elif mode == 'netem_root':
+			command = 'tc qdisc {} dev {} root netem delay {} {} {} loss {}'.format('add' if add else ' change',interface, kwargs['delay'],kwargs['jitter'],kwargs['variation'], param ,kwargs['loss'])
+			print(command)
+		return command
 
 	def callSniffer(self,obj,cmd):
 		path = 'Framework/results/'+obj.label
@@ -88,10 +86,10 @@ class Network:
 			for edge in node.edges:
 				#Configurando parametros de rede					
 				if(edge.h1 == node.label):
-					send.cmd( self.traffic_shaping('netem_parent',interface= edge.intfName1,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss']) )			
+					send.cmd( self.trafficShaping('netem_parent',interface= edge.intfName1,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss']) )			
 					
 				elif(edge.h2 == node.label):
-					send.cmd( self.traffic_shaping('netem_parent',interface= edge.intfName2,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss']) )			
+					send.cmd( self.trafficShaping('netem_parent',interface= edge.intfName2,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss']) )			
 
 			
 			#Cria a pasta que tera os arquivos de transferencia

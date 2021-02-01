@@ -76,7 +76,7 @@ def format_columns(df):
 
 
 
-def sending_rate(onlyfiles,delta_t):
+def sendingRate(onlyfiles,delta_t):
 
     id = 1
     # onlyfiles = [f for f in listdir(path) if isfile(join(path, f)) and ".pcap" in f ]
@@ -302,6 +302,7 @@ def bbrParser(onlyfiles):
             except Exception as e:
                 continue
         id = id + 1
+        f.close()
     df = pd.DataFrame(data)
     
     return format_bbrColumns(df)
@@ -312,7 +313,7 @@ def queueParser(onlyfiles):
     data = []
     for file in onlyfiles:
         # f = open(path+"/"+file,"r")
-        f = open(file,"r")
+        f = open(file,"r",encoding="ISO-8859-1"  )
         start = -1
         
         for line in f:
@@ -344,6 +345,7 @@ def queueParser(onlyfiles):
                 #Criar um data vazio, mas com o time.
                 continue
         id = id + 1
+        f.close()
 #     df_aux = pd.DataFrame.from_dict(json_normalize(data_json), orient='columns')
     df = pd.DataFrame(data)
     return format_columns(df)

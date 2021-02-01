@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ # -*- coding: utf-8 -*-
 from collections import defaultdict
 from Switch import Switch
 from Edge import Edge
@@ -33,13 +33,13 @@ Edges = []
 
 def configTopo():
 
-	with io.open("Framework/config/config.json","r",encoding='utf-8') as json_file:
+	with io.open("Framework/config/conf_exp_1.json","r",encoding='utf-8') as json_file:
 		data = json.load(json_file)
 		
 		for d in data:
 			if(d['type'] == "HOST"):
 				Nodes.append(Node(d))
-			elif(d['type'] == "SWITCH"):
+			elif(d['type'] == "SWITCH" or d['type'] == "ROUTER"):
 				Switchs.append(Switch(d))
 			elif(d['type'] == "EDGE"):
 				Edges.append(Edge(d))
@@ -53,7 +53,7 @@ def configTopo():
 
 
 def configExperimento():
-	with io.open("Framework/config/params.json","r",encoding='utf-8') as json_file:
+	with io.open("Framework/config/params_exp_1.json","r",encoding='utf-8') as json_file:
 		data = json.load(json_file)
 		params = None
 		for d in data:
@@ -80,6 +80,7 @@ def startIperf(Net):
 			Net.net.iperf( ( h_x, h_y ), l4Type='TCP' )
 
 def run(cli=False,iperf=False):
+	
 	os.system("mn -c ")
 	configTopo()
 	config = configExperimento()

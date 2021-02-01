@@ -26,7 +26,7 @@
 				},
 				"socket":{
 					"status":1,
-					"delta_t":0.01
+					"delta_t":0.002
 				}
 				
 			},
@@ -35,11 +35,78 @@
 	},
 	{
 		"type":"HOST",
+		"name":"h2",
+		"transport_protocol":"bbr",
+		"queue":{
+			"protocol":"",
+			"latency":"0ms",
+			"length":"",
+			"jitter":"",
+			"variation":"",
+			"loss":""		
+		}
+		,
+		"sniffer":
+			{
+				"queue":{
+
+					"status":0,
+					"delta_t":0
+				},
+				"traffic":{
+					"status":0,
+					"intf":"",
+					"delta_t":0
+				},
+				"socket":{
+					"status":1,
+					"delta_t":0.01
+				}
+				
+			},
+		"ip":"10.0.0.2",
+		"ftp_server":1
+	},{
+		"type":"HOST",
+		"name":"h3",
+		"transport_protocol":"bbr",
+		"queue":{
+			"protocol":"",
+			"latency":"0ms",
+			"length":"",
+			"jitter":"",
+			"variation":"",
+			"loss":""		
+		}
+		,
+		"sniffer":
+			{
+				"queue":{
+
+					"status":0,
+					"delta_t":0
+				},
+				"traffic":{
+					"status":0,
+					"intf":"",
+					"delta_t":0
+				},
+				"socket":{
+					"status":1,
+					"delta_t":0.01
+				}
+				
+			},
+		"ip":"10.0.0.3",
+		"ftp_server":1
+	},
+	{
+		"type":"HOST",
 		"name":"h4",
 		"transport_protocol":"bbr",
 		"queue":{
 			"protocol":"",
-			"latency":"40ms",
+			"latency":"100ms",
 			"length":"",
 			"jitter":"",
 			"variation":"",
@@ -66,7 +133,7 @@
 			},
 		"ip":"10.0.0.4",
 		"ftp_server":0
-	},
+	}
 	{
 		"type":"SWITCH",
 		"name":"sw1",
@@ -134,42 +201,7 @@
 			},
 		"ip":"10.0.1.2",
 		"ftp_server":0,
-		"mac":"00:00:00:00:00:01"
-	},
-	{
-		"type":"SWITCH",
-		"name":"sw3",
-		"transport_protocol":"bbr",
-		"queue":{
-			"protocol":"fq_codel",
-			"latency":"",
-			"length":"",
-			"jitter":"",
-			"variation":"",
-			"loss":""		
-		},
-		"ip":"10.0.1.3",
-		"sniffer":
-			{
-				"queue":{
-					"status":0,
-					"delta_t":0.04,
-					"intf":"sw3-eth1"
-				},
-				"traffic":{
-					"status":0,
-					"intf":"sw3-eth1",
-					"delta_t":0.04
-				},
-				"socket":{
-					"status":0,
-					"delta_t":0
-				}
-				
-			},
-		
-		"ftp_server":0,
-		"mac":"00:00:00:00:00:01"
+		"mac":"00:00:00:00:00:10"
 	},
 	{
 		"type":"EDGE",
@@ -177,7 +209,29 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h1-sw1",
 		"intfName2":"h1-sw1",
-		"bw":20,
+		"bw":200,
+		"buffer":1500,
+		"latency":"0ms",
+		"loss":0
+	},
+	{
+		"type":"EDGE",
+		"VERTICE_1":"h2",
+		"VERTICE_2":"sw1",
+		"intfName1":"h2-sw1",
+		"intfName2":"h2-sw1",
+		"bw":200,
+		"buffer":1500,
+		"latency":"0ms",
+		"loss":0
+	},
+	{
+		"type":"EDGE",
+		"VERTICE_1":"h3",
+		"VERTICE_2":"sw1",
+		"intfName1":"h3-sw1",
+		"intfName2":"h3-sw1",
+		"bw":200,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -188,7 +242,7 @@
 		"VERTICE_2":"sw2",
 		"intfName1":"sw1-eth4",
 		"intfName2":"sw1-sw2",
-		"bw":20,
+		"bw":200,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -196,21 +250,21 @@
 	{
 		"type":"EDGE",
 		"VERTICE_1":"sw2",
-		"VERTICE_2":"sw3",
-		"intfName1":"sw2-sw3",
-		"intfName2":"sw3-eth1",	
-		"bw":10,
+		"VERTICE_2":"h3",
+		"intfName1":"sw2-h4",
+		"intfName2":"sw2-h4",
+		"bw":200,
 		"buffer":1500,
-		"latency":"0ms",
+		"latency":"0ms", 
 		"loss":0
 	},
 	{
 		"type":"EDGE",
-		"VERTICE_1":"sw3",
+		"VERTICE_1":"sw2",
 		"VERTICE_2":"h4",
-		"intfName1":"sw3-h4",
-		"intfName2":"sw3-h4",
-		"bw":20,
+		"intfName1":"sw2-h4",
+		"intfName2":"sw2-h4",
+		"bw":200,
 		"buffer":1500,
 		"latency":"0ms", 
 		"loss":0

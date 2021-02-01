@@ -1,3 +1,3 @@
 from Framework import *
 
-run(cli=True,iperf=False)
+run(cli=True,iperf=True)
