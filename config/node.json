@@ -1,0 +1,34 @@
+{
+		"type":"HOST",
+		"name":"h1",
+		"transport_protocol":"bbr",
+		"queue":{
+			"protocol":"fq_codel",
+			"latency":"100ms",
+			"length":"",
+			"jitter":"10",
+			"variation":"5",
+			"loss":"0"		
+		},
+		"sniffer":
+			{
+				"queue":{
+					"status":1,
+					"delta_t":0.01,
+					"intf":"sw3-h4"
+
+				},
+				"traffic":{
+					"status":0,
+					"intf":"",
+					"delta_t":0
+				},
+				"socket":{
+					"status":0,
+					"delta_t":0
+				}
+				
+			},
+		"ip":"10.0.0.4",
+		"ftp_server":0
+	}

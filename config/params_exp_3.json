@@ -1,0 +1,53 @@
+[  	
+	{
+		"type":"config",
+		"n_rodadas":1,
+		"tempo_rodada":120
+	},
+	{ 
+		"time":10,
+		"node":"h7",
+		"type":"start",
+		"ip":"10.0.0.1",
+		"filename":"big_file.zip"
+	},
+	{ 
+		"time":10,
+		"node":"h8",
+		"type":"start",
+		"ip":"10.0.0.2",
+		"filename":"big_file.zip"
+	},
+	
+	{ 
+		"time":10,
+		"node":"h9",
+		"type":"start",
+		"ip":"10.0.0.3",
+		"filename":"big_file.zip"
+	}
+	,
+	{ 
+		"time":1,
+		"node":"h10",
+		"type":"start",
+		"ip":"10.0.0.4",
+		"filename":"big_file.zip"
+	},
+	
+	{ 
+		"time":1,
+		"node":"h11",
+		"type":"start",
+		"ip":"10.0.0.5",
+		"filename":"big_file.zip"
+	},
+	
+	{ 
+		"time":1,
+		"node":"h12",
+		"type":"start",
+		"ip":"10.0.0.6",
+		"filename":"big_file.zip"
+	}
+]

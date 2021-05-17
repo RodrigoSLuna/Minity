@@ -1,3 +1,3 @@
-from .collectors import *
-from .extractor import *
-from .metrics import *
+from .coletor import *
+from .extrator import *
+from .plotagem import *

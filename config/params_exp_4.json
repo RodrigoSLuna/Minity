@@ -1,0 +1,35 @@
+[  	
+	{
+		"type":"config",
+		"n_rodadas":1,
+		"tempo_rodada":30
+	},
+	{ 
+		"time":1,
+		"node":"h6",
+		"type":"start",
+		"ip":"10.0.0.1",
+		"filename":"big_file.zip"
+	},
+	{ 
+		"time":1,
+		"node":"h7",
+		"type":"start",
+		"ip":"10.0.0.2",
+		"filename":"big_file.zip"
+	},
+	{ 
+		"time":1,
+		"node":"h8",
+		"type":"start",
+		"ip":"10.0.0.3",
+		"filename":"big_file.zip"
+	},
+	{
+		"type":"bw",
+		"time":15,
+		"node":"sw2",
+		"intfName":"sw2-sw3",
+		"value":20
+	}
+]

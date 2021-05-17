@@ -1,0 +1,7 @@
+Capítulo 2:
+exp 0: Experimento de 2 fluxos BBR com alterações de banda e RTT.
+
+
+
+Resultados:
+- exp1: Experimento com 1 único fluxo BBR a fim de verificar o comportamento frente a alterações de banda. Com ajustes idênticos ao do artico dos suecos.

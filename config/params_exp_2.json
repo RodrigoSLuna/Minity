@@ -1,0 +1,21 @@
+[  	
+	{
+		"type":"config",
+		"n_rodadas":1,
+		"tempo_rodada":55
+	},
+	{ 
+		"time":1,
+		"node":"h3",
+		"type":"start",
+		"ip":"10.0.0.1",
+		"filename":"big_file.zip"
+	},
+	{ 
+		"time":5,
+		"node":"h4",
+		"type":"start",
+		"ip":"10.0.0.2",
+		"filename":"big_file.zip"
+	}
+]

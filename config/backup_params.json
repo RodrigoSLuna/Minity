@@ -1,0 +1,101 @@
+ 
+
+[  	
+
+	{
+		"type":"config",
+		"n_rodadas":1,
+		"tempo_rodada":130
+	},
+	{ 
+		"time":1,
+		"node":"h4",
+		"type":"start",
+		"ip":"10.0.0.1",
+		"filename":"big_file.zip"
+	},
+	{
+		"type":"bw",
+		"time":20,
+		"node":"sw2",
+		"intfName":"sw2-sw3",
+		"value":20
+	},
+	{
+		"type":"bw",
+		"time":40,
+		"node":"sw2",
+		"intfName":"sw2-sw3",
+		"value":10
+	},
+	{
+		
+		"type":"rtt",
+		"time":55,
+		"node":"h4",
+		"intfName":"sw3-h4",
+		"value":"120ms"
+		
+	},
+	{
+		
+		"type":"rtt",
+		"time":75,
+		"node":"h4",
+		"intfName":"sw3-h4",
+		"value":"40ms"
+		
+	},
+	{ 
+		"time":20,
+		"node":"h6",
+		"type":"start",
+		"ip":"10.0.0.3",
+		"filename":"big_file.zip"
+	},
+
+	{ 
+		"type":"rtt",
+		"time":55,
+		"node":"h4",
+		"intfName":"sw3-h4",
+		"value":"120ms"
+	}
+
+
+	{
+		"type":"HOST",
+		"name":"h6",
+		"transport_protocol":"bbr",
+		"queue":{
+			"protocol":"",
+			"latency":"120ms",
+			"length":"",
+			"jitter":"",
+			"variation":"",
+			"loss":""		
+		},
+		"sniffer":
+			{
+				"queue":{
+					"status":1,
+					"delta_t":0.01,
+					"intf":"sw3-h6"
+
+				},
+				"traffic":{
+					"status":0,
+					"intf":"",
+					"delta_t":0
+				},
+				"socket":{
+					"status":0,
+					"delta_t":0
+				}
+				
+			},
+		"ip":"10.0.0.6",
+		"ftp_server":0
+	},
+
+]
