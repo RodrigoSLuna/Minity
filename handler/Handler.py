@@ -3,7 +3,7 @@ import datetime
 from time import sleep
 import logging
 class Handler():
-	def run(self,nodes,switchs,Network,configs):
+	def run(self,nodes,switchs,Network,configs,edges):
 		
 		logging.basicConfig(filename='Framework/results/example.log',level=logging.INFO,format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 		time = 0
@@ -12,6 +12,12 @@ class Handler():
 		
 
 		max_time = configs['tempo_rodada']
+		
+		# #Configura a fila de pacotes do gargalo.
+		# for switch in switchs:
+		# 	send = Network.net.get(switch.label)
+		# 	# if(switch.label == 'sw3-eth1'):
+		# 	# 		send.cmd("tc qdisc replace dev sw3-eth1 root netem limit 1500")
 
 
 		while(time < max_time):
@@ -33,7 +39,7 @@ class Handler():
 								node.retrFile(send,command['ip'],node.label,command['filename'])
 							
 							elif(command['type'] == 'rtt'):
-								# print(time, ("tc qdisc change dev {} parent 5:1 netem delay {}".format(command['intfName'], command['value'])))
+								print(time, ("tc qdisc change dev {} parent 5:1 netem delay {}".format(command['intfName'], command['value'])))
 								logging.info(node.label + " Trocou rtt {}".format(command['value']))
 								send.cmd("tc qdisc change dev {} parent 5:1 netem delay {}".format(command['intfName'], command['value']))
 
@@ -42,6 +48,7 @@ class Handler():
 					logging.error(e)
 			
 
+			
 			for switch in switchs:
 				send = Network.net.get(switch.label)
 				####Configura sniffer
@@ -51,9 +58,11 @@ class Handler():
 					for command in switch.commands:
 						if(command['time'] == time):
 							if(command['type'] == 'bw'):
-								print(time, ("tc qdisc change dev {} handle 5: tbf rate {}Mbit burst 15000b lat 2.0ms".format(command['intfName'], command['value'])))
+								print(time, ("tc qdisc change dev {} handle 5: tbf rate {}Mbit".format(command['intfName'], command['value'])))
+								# print(time, ("tc qdisc change dev {} handle 5: tbf rate {}Mbit buffer 15000b ".format(command['intfName'], command['value'])))
 								logging.info(switch.label + " Trocou bw {}".format(command['value']))
-								send.cmd("tc qdisc change dev {} handle 5: tbf rate {}Mbit burst 15000b lat 2.0ms".format(command['intfName'], command['value']))
+								send.cmd("tc qdisc change dev {} handle 5: tbf rate {}Mbit ".format(command['intfName'], command['value']))
+								# send.cmd("tc qdisc replace dev {} root netem rate {}Mbit limit 17".format(command['intfName'],command['value']))
 				except Exception as e:
 					print(time,e)
 					logging.error(e)

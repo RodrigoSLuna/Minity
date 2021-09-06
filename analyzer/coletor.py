@@ -45,10 +45,16 @@ def mrtt_to_secs(val):
     
     
 def format_bbrColumns(df):
+    try:
+        df['bw'] = df['bw'].apply(lambda x: rate(x) )
+    except:
+        df['bw'] = 0
+    
+    try:
 
-    df['bw'] = df['bw'].apply(lambda x: rate(x) )
-    df['mrtt'] = df['mrtt'].apply(lambda x: mrtt_to_secs(x) ) 
-
+        df['mrtt'] = df['mrtt'].apply(lambda x: mrtt_to_secs(x) ) 
+    except:
+        df['mrtt'] = 0
     return df.fillna(0)
 
 
@@ -68,7 +74,10 @@ def format_columns(df):
     df['backlog'] = df['backlog'].apply(lambda x: rate(x) )
     df['burst'] = df['burst'].apply(lambda x: rate(x) )
     
-    df['delay'] = df['delay'].apply(lambda x: to_secs(x) )
+    try:
+        df['delay'] = df['delay'].apply(lambda x: to_secs(x) )
+    except:
+        df['delay'] = 0
     df['lat'] = df['lat'].apply(lambda x: to_secs(x) )
     
     return df.fillna(0)

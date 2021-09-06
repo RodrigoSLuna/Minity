@@ -12,7 +12,7 @@ class Switch(Sniffer):
 		self.sniffer = params['sniffer']
 		self.ip = params['ip']
 		self.ftp = params['ftp_server']
-
+		# self.mask = params['mask']
 
 		self.commands = {}
 

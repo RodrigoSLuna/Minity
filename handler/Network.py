@@ -46,10 +46,11 @@ class Network:
 	#https://lartc.org/howto/lartc.qdisc.classful.html
 	#https://lartc.org/howto/lartc.qdisc.filters.html
 
-#TODO// Para Plotar o buffer está com 1 problema
 
 	def trafficShaping(self,mode, interface, add, **kwargs):
+
 		if mode == 'tbf':
+			print(">>>>",kwargs['buffer'])
 			command = 'tc qdisc {} dev {} root handle 1: tbf rate {} buffer {} latency {}'.format('add' if add else ' change',interface, kwargs['rate'],kwards['buffer'],kwards['latency'])
 
 
@@ -102,8 +103,8 @@ class Network:
 			#Cria a pasta que tera os arquivos de transferencia
 			send.cmd("mkdir -m 777 Framework/results/{}".format(node.label))
 
-			#Setar o IP do send Implementar
-			
+			# #Setar o IP do send Implementar
+			# send.setIP(node.ip,node.mask)
 			#Necessário verificar se aquele algoritmo está instalado!
 			algorithms = get_algorithms()
 			if(node.transport_protocol not in algorithms):
@@ -123,16 +124,22 @@ class Network:
 	def configSwitches(self,switchs):
 		for switch in switchs:
 			send = self.net.get(switch.label)
+
+			if(switch.label == 'sw2'):
+				send.cmd("tc qdisc replace dev sw2-sw3 root netem rate 10Mbit limit 17")
+				print("Entrou")
 			#Pasta que tera os resultados
 			send.cmd("mkdir -m 777 Framework/results/{}".format(switch.label))
-
+			
+			#Não se pode setar o IP para um switch.
+			# send.setIP(switch.ip,switch.mask)
 			# ####Configura sniffer
 			# self.callSniffer(switch,send)
 
 	def configRouter(self,routers):
 		for router in routers:
 			send = self.net.get(router.label)
-
+			send.setIP(router.ip,router.mask)
 			send.cmd("mkdir -m 777 Framework/results/{}".format(router.label))
 
 			# ####Configura sniffer

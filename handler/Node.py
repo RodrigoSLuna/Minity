@@ -16,7 +16,7 @@ class Node(FTP,Sniffer):
 			params['queue']['length'] = 1000
 		self.queue = params['queue']
 		self.ip = params['ip']
-
+		# self.mask = params['mask']
 		self.sniffer = params['sniffer']
 		self.ftp = params['ftp_server']
 

@@ -4,6 +4,7 @@ from Switch import Switch
 from Edge import Edge
 from Network import Network
 from Node import Node
+from Router import Router
 from Handler import Handler
 from Topology import Topologia
 from mininet.net import Mininet
@@ -40,12 +41,13 @@ def configTopo(filename):
 		for d in data:
 			if(d['type'] == "HOST"):
 				Nodes.append(Node(d))
-			elif(d['type'] == "SWITCH" or d['type'] == "ROUTER"):
+			# elif(d['type'] == "SWITCH" ):
+			elif(d['type'] == "SWITCH" or d['type'] == "ROUTER" ):
 				Switchs.append(Switch(d))
 			elif(d['type'] == "EDGE"):
 				Edges.append(Edge(d))
 			else:
-				Routers.append(d)	
+				Routers.append(Router(d))	
 
 	for node in Nodes:
 		for edge in Edges:
@@ -68,6 +70,9 @@ def configExperimento(filename):
 			for switch in Switchs:
 				if(switch.label == d['node']):
 					switch.configComand( d )
+			for router in Routers:
+				if(router.label == d['node']):
+					router.configComand( d )
 	return params
 
 
@@ -104,6 +109,7 @@ def run(cli=False,iperf=False,config=None,exp=None):
 			CLI(Net.net)
 		else:
 			gerenciador = Handler()
-			gerenciador.run(Nodes,Switchs,Net,config)
+			gerenciador.run(Nodes,Switchs,Net,config,Edges)
 		
+		# CLI(Net.net)
 		Net.net.stop()

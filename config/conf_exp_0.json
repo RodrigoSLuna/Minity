@@ -2,11 +2,11 @@
 	{
 		"type":"HOST",
 		"name":"h1",
-		"transport_protocol":"bbr",
+		"transport_protocol":"cubic",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
-			"length":"",
+			"length":"150000",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -36,11 +36,11 @@
 	{
 		"type":"HOST",
 		"name":"h2",
-		"transport_protocol":"bbr",
+		"transport_protocol":"cubic",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
-			"length":"",
+			"length":"150000",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -74,7 +74,7 @@
 		"queue":{
 			"protocol":"fq_codel",
 			"latency":"80ms",
-			"length":"",
+			"length":"150000",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -84,7 +84,7 @@
 			{
 				"queue":{
 					"status":1,
-					"delta_t":0.01,
+					"delta_t":0.001,
 					"intf":"sw3-h3"
 				},
 				"traffic":{
@@ -108,7 +108,7 @@
 		"queue":{
 			"protocol":"fq_codel",
 			"latency":"40ms",
-			"length":"",
+			"length":"150000",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -117,7 +117,7 @@
 			{
 				"queue":{
 					"status":1,
-					"delta_t":0.01,
+					"delta_t":0.001,
 					"intf":"sw3-h4"
 
 				},
@@ -136,13 +136,13 @@
 		"ftp_server":0
 	},
 	{
-		"type":"ROUTER",
+		"type":"SWITCH",
 		"name":"sw1",
 		"transport_protocol":"bbr",
 		"queue":{
 			"protocol":"fq_codel",
 			"latency":"",
-			"length":"",
+			"length":"150000",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -171,13 +171,13 @@
 		"mac":"00:00:00:00:00:01"
 	},
 	{
-		"type":"ROUTER",
+		"type":"SWITCH",
 		"name":"sw2",
 		"transport_protocol":"bbr",
 		"queue":{
 			"protocol":"fq_codel",
 			"latency":"",
-			"length":"",
+			"length":"150000",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -186,8 +186,8 @@
 			{
 				"queue":{
 					"status":1,
-					"delta_t":0.01,
-					"intf":"sw3-eth1"
+					"delta_t":0.001,
+					"intf":"sw2-sw3"
 				},
 				"traffic":{
 					"status":1,
@@ -205,13 +205,13 @@
 		"mac":"00:00:00:00:00:02"
 	},
 	{
-		"type":"ROUTER",
+		"type":"SWITCH",
 		"name":"sw3",
 		"transport_protocol":"bbr",
 		"queue":{
 			"protocol":"fq_codel",
 			"latency":"",
-			"length":"",
+			"length":"150000",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -220,12 +220,12 @@
 			{
 				"queue":{
 					"status":1,
-					"delta_t":0.01,
-					"intf":"sw3-eth1"
+					"delta_t":0.001,
+					"intf":"sw2-sw3"
 				},
 				"traffic":{
 					"status":1,
-					"intf":"sw3-eth1",
+					"intf":"sw2-sw3",
 					"delta_t":0.02
 				},
 				"socket":{
@@ -244,7 +244,7 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h1-sw1",
 		"intfName2":"h1-sw1",
-		"bw":20,
+		"bw":200,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -255,7 +255,7 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h2-sw1",
 		"intfName2":"h2-sw1",
-		"bw":20,
+		"bw":200,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -266,7 +266,7 @@
 		"VERTICE_2":"sw2",
 		"intfName1":"sw1-eth4",
 		"intfName2":"sw1-sw2",
-		"bw":20,
+		"bw":200,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -277,7 +277,7 @@
 		"VERTICE_2":"sw3",
 		"intfName1":"sw2-sw3",
 		"intfName2":"sw3-eth1",	
-		"bw":10,
+		"bw":100,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -289,7 +289,7 @@
 		"VERTICE_2":"h3",
 		"intfName1":"sw3-h3",
 		"intfName2":"sw3-h3",
-		"bw":20,
+		"bw":200,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -300,7 +300,7 @@
 		"VERTICE_2":"h4",
 		"intfName1":"sw3-h4",
 		"intfName2":"sw3-h4",
-		"bw":20,
+		"bw":200,
 		"buffer":1500,
 		"latency":"0ms", 
 		"loss":0

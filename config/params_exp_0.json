@@ -23,14 +23,14 @@
 		"time":20,
 		"node":"sw2",
 		"intfName":"sw2-sw3",
-		"value":20
+		"value":200
 	},
 	{
 		"type":"bw",
 		"time":40,
 		"node":"sw2",
 		"intfName":"sw2-sw3",
-		"value":10
+		"value":100
 	},
 	{ 
 		"type":"rtt",
