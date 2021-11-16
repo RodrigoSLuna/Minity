@@ -70,16 +70,26 @@ def to_secs(val):
 
     
 def format_columns(df):
-    df['rate'] = df['rate'].apply(lambda x: rate(x) )
-    df['backlog'] = df['backlog'].apply(lambda x: rate(x) )
-    df['burst'] = df['burst'].apply(lambda x: rate(x) )
-    
+    try:
+        df['rate'] = df['rate'].apply(lambda x: rate(x) )
+    except:
+        df['rate'] = 0
+    try:
+        df['backlog'] = df['backlog'].apply(lambda x: rate(x) )
+    except:
+        df['backlog'] = 0
+    try:
+        df['burst'] = df['burst'].apply(lambda x: rate(x) )
+    except:
+        df['burst'] = 0
     try:
         df['delay'] = df['delay'].apply(lambda x: to_secs(x) )
     except:
         df['delay'] = 0
-    df['lat'] = df['lat'].apply(lambda x: to_secs(x) )
-    
+    try:
+        df['lat'] = df['lat'].apply(lambda x: to_secs(x) )
+    except:
+        df['lat'] = 0
     return df.fillna(0)
 
 
@@ -232,7 +242,7 @@ def bbrParser(onlyfiles):
     for file in onlyfiles:
         
         # f = open(path+"/"+file,"r")
-        f = open(file,"r")
+        f = open(file,"rb")
         start = -1
         for line in f:
             try:    

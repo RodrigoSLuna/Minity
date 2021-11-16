@@ -2,11 +2,11 @@
 	{
 		"type":"HOST",
 		"name":"h1",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
-			"length":"",
+			"length":"15000",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -17,7 +17,8 @@
 				"queue":{
 
 					"status":0,
-					"delta_t":0
+					"delta_t":0.001,
+					"intf":"h1-sw1"
 				},
 				"traffic":{
 					"status":0,
@@ -26,7 +27,7 @@
 				},
 				"socket":{
 					"status":1,
-					"delta_t":0.002
+					"delta_t":0.001
 				}
 				
 			},
@@ -36,11 +37,11 @@
 	{
 		"type":"HOST",
 		"name":"h2",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"40ms",
-			"length":"34",
+			"length":"15000",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -49,7 +50,7 @@
 			{
 				"queue":{
 
-					"status":1,
+					"status":0,
 					"delta_t":0.01,
 					"intf":"sw3-h2"
 				},
@@ -82,12 +83,12 @@
 		"sniffer":
 			{
 				"queue":{
-					"status":1,
-					"delta_t":0.01,
+					"status":0,
+					"delta_t":0.001,
 					"intf":"sw1-eth4"
 				},
 				"traffic":{
-					"status":1,
+					"status":0,
 					"intf":"sw1-eth4",
 					"delta_t":0.2
 
@@ -118,12 +119,12 @@
 			{
 				"queue":{
 					"status":1,
-					"delta_t":0.01,
-					"intf":"sw3-eth1"
+					"delta_t":0.001,
+					"intf":"sw2-sw3"
 				},
 				"traffic":{
 					"status":1,
-					"intf":"sw2-eth4",
+					"intf":"sw2-sw3",
 					"delta_t":0.02
 				},
 				"socket":{
@@ -151,12 +152,12 @@
 		"sniffer":
 			{
 				"queue":{
-					"status":1,
-					"delta_t":0.01,
+					"status":0,
+					"delta_t":0.001,
 					"intf":"sw3-eth1"
 				},
 				"traffic":{
-					"status":1,
+					"status":0,
 					"intf":"sw3-eth1",
 					"delta_t":0.02
 				},
@@ -176,8 +177,8 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h1-sw1",
 		"intfName2":"h1-sw1",
-		"bw":20,
-		"buffer":1500,
+		"bw":500,
+		"buffer":250000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -187,8 +188,8 @@
 		"VERTICE_2":"sw2",
 		"intfName1":"sw1-eth4",
 		"intfName2":"sw1-sw2",
-		"bw":20,
-		"buffer":1500,
+		"bw":500,
+		"buffer":250000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -198,8 +199,8 @@
 		"VERTICE_2":"sw3",
 		"intfName1":"sw2-sw3",
 		"intfName2":"sw3-eth1",	
-		"bw":10,
-		"buffer":1500,
+		"bw":500,
+		"buffer":250000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -210,8 +211,8 @@
 		"VERTICE_2":"h2",
 		"intfName1":"sw3-h2",
 		"intfName2":"sw3-h2",
-		"bw":20,
-		"buffer":1500,
+		"bw":500,
+		"buffer":250000,
 		"latency":"0ms",
 		"loss":0
 	}

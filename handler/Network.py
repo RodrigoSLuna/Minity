@@ -50,7 +50,7 @@ class Network:
 	def trafficShaping(self,mode, interface, add, **kwargs):
 
 		if mode == 'tbf':
-			print(">>>>",kwargs['buffer'])
+			# print(">>>>",kwargs['buffer'])
 			command = 'tc qdisc {} dev {} root handle 1: tbf rate {} buffer {} latency {}'.format('add' if add else ' change',interface, kwargs['rate'],kwards['buffer'],kwards['latency'])
 
 
@@ -61,12 +61,11 @@ class Network:
 				param = 'loss'
 			command = 'tc qdisc {} dev {} parent 5:1 handle 10: netem limit {} delay {} {} {} {} {}'.format('add' if add else ' change',interface, kwargs['length'],kwargs['delay'],kwargs['jitter'],kwargs['variation'],param ,kwargs['loss'])
 			# command = 'tc qdisc {} dev {} parent 5:1 handle 10: netem  delay {} {} {} {} {}'.format('add' if add else ' change',interface,kwargs['delay'],kwargs['jitter'],kwargs['variation'],param ,kwargs['loss'])
-			print(command)
 		elif mode == 'netem_root':
 			
-			command = 'tc qdisc {} dev {} root netem limit {} delay {} {} {} loss {}'.format('add' if add else ' change',interface,kwargs['length'] ,kwargs['delay'],kwargs['jitter'],kwargs['variation'], param ,kwargs['loss'])
-			# command = 'tc qdisc {} dev {} root netem limit {} delay {} {} {} loss {}'.format('add' if add else ' change',interface,kwargs['delay'],kwargs['jitter'],kwargs['variation'], param ,kwargs['loss'])
-			print(command)
+			# command = 'tc qdisc {} dev {} root netem limit {} delay {} {} {} loss {}'.format('add' if add else ' change',interface,kwargs['length'] ,kwargs['delay'],kwargs['jitter'],kwargs['variation'], param ,kwargs['loss'])
+			command = 'tc qdisc {} dev {} root netem limit {} delay {} {} {} loss {}'.format('add' if add else ' change',interface,kwargs['delay'],kwargs['jitter'],kwargs['variation'], param ,kwargs['loss'])
+			# print(command)
 		return command
 
 	def callSniffer(self,obj,cmd):
@@ -90,13 +89,16 @@ class Network:
 			
 			#A configuracao do trafego sera realizada sempre no receptor
 			for edge in node.edges:
+				# send.cmd("ip link set dev {} txqueuelen 1".format(edge.intfName1))
+				# send2 = self.net.get(edge.h2)
+				# send2.cmd("ip link set dev {} txqueuelen 1".format(edge.intfName2))
 				#Configurando parametros de rede					
 				if(edge.h1 == node.label):
-					print("Queue length: ", node.queue['length'],node.queue['latency'])
+					# print("Queue length: ", node.queue['length'],node.queue['latency'])
 					send.cmd( self.trafficShaping('netem_parent',interface= edge.intfName1,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss'],length=node.queue['length']) )			
 					
 				elif(edge.h2 == node.label):
-					print("Queue length: ", node.queue['length'],node.queue['latency'])
+					# print("Queue length: ", node.queue['length'],node.queue['latency'])
 					send.cmd( self.trafficShaping('netem_parent',interface= edge.intfName2,add=True,delay=node.queue['latency'],jitter =node.queue['jitter'], variation= node.queue['variation'],loss =node.queue['loss'],length=node.queue['length']) )			
 
 			
@@ -124,10 +126,8 @@ class Network:
 	def configSwitches(self,switchs):
 		for switch in switchs:
 			send = self.net.get(switch.label)
-
-			if(switch.label == 'sw2'):
-				send.cmd("tc qdisc replace dev sw2-sw3 root netem rate 10Mbit limit 17")
-				print("Entrou")
+			# if(switch.label =='sw2'):
+			# send.cmd("ip link set dev {} txqueuelen 1".format(switch)) #Não fez diferença no enfileiramento dos pacotes!
 			#Pasta que tera os resultados
 			send.cmd("mkdir -m 777 Framework/results/{}".format(switch.label))
 			

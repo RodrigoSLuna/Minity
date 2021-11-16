@@ -105,11 +105,10 @@ def run(cli=False,iperf=False,config=None,exp=None):
 
 		if(iperf):
 			startIperf(Net)
-		elif(cli):
-			CLI(Net.net)
 		else:
+			if(cli):
+				CLI(Net.net)
+			print("Início do experimento")
 			gerenciador = Handler()
 			gerenciador.run(Nodes,Switchs,Net,config,Edges)
-		
-		# CLI(Net.net)
 		Net.net.stop()

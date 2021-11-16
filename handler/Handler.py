@@ -14,10 +14,12 @@ class Handler():
 		max_time = configs['tempo_rodada']
 		
 		# #Configura a fila de pacotes do gargalo.
-		# for switch in switchs:
-		# 	send = Network.net.get(switch.label)
-		# 	# if(switch.label == 'sw3-eth1'):
-		# 	# 		send.cmd("tc qdisc replace dev sw3-eth1 root netem limit 1500")
+		# for edge in edges:
+		# 	send1 = Network.net.get(edge.h1)
+		# 	send1.cmd("ip link set dev {} txqueuelen 1".format(edge.intfName1))
+		# 	send2 = Network.net.get(edge.h2)
+		# 	send2.cmd("ip link set dev {} txqueuelen 1".format(edge.intfName2))
+
 
 
 		while(time < max_time):
@@ -39,15 +41,24 @@ class Handler():
 								node.retrFile(send,command['ip'],node.label,command['filename'])
 							
 							elif(command['type'] == 'rtt'):
+							
 								print(time, ("tc qdisc change dev {} parent 5:1 netem delay {}".format(command['intfName'], command['value'])))
 								logging.info(node.label + " Trocou rtt {}".format(command['value']))
-								send.cmd("tc qdisc change dev {} parent 5:1 netem delay {}".format(command['intfName'], command['value']))
+								send.cmd("tc qdisc change dev {} handle 10: parent 5:1 netem delay {}".format(command['intfName'], command['value']))
 
 				except Exception as e:
 					print(time,e)
 					logging.error(e)
 			
-
+			# Fazer essa configuração antes.
+			for edge in edges:
+				send = Network.net.get(edge.h1)
+				# print("tc qdisc change dev {} handle 5: tbf rate {}Mbit buffer 1550b lat 100ms".format(edge.intfName1,edge.bw))
+				send.cmd("tc qdisc change dev {} handle 5: tbf rate {}Mbit buffer 1550b lat 100ms".format(edge.intfName1,edge.bw))
+				
+				send = Network.net.get(edge.h2)
+				# print("tc qdisc change dev {} handle 5: tbf rate {}Mbit buffer 1550b lat 100ms".format(edge.intfName2,edge.bw))
+				send.cmd("tc qdisc change dev {} handle 5: tbf rate {}Mbit buffer 1550b lat 100ms".format(edge.intfName2,edge.bw))
 			
 			for switch in switchs:
 				send = Network.net.get(switch.label)
@@ -58,11 +69,13 @@ class Handler():
 					for command in switch.commands:
 						if(command['time'] == time):
 							if(command['type'] == 'bw'):
-								print(time, ("tc qdisc change dev {} handle 5: tbf rate {}Mbit".format(command['intfName'], command['value'])))
+								
+								print(time, ("tc qdisc change dev {} handle 5: tbf rate {}Mbit buffer 1550b lat 10ms".format(command['intfName'], command['value'])))
 								# print(time, ("tc qdisc change dev {} handle 5: tbf rate {}Mbit buffer 15000b ".format(command['intfName'], command['value'])))
 								logging.info(switch.label + " Trocou bw {}".format(command['value']))
-								send.cmd("tc qdisc change dev {} handle 5: tbf rate {}Mbit ".format(command['intfName'], command['value']))
-								# send.cmd("tc qdisc replace dev {} root netem rate {}Mbit limit 17".format(command['intfName'],command['value']))
+								
+								send.cmd("tc qdisc change dev {} handle 5: tbf rate {}Mbit burst 15000b lat 2.0ms ".format(command['intfName'],command['value']))
+								# send.cmd("tc qdisc replace dev {} root netem rate {}Mbit limit 100000".format(command['intfName'],command['value']))
 				except Exception as e:
 					print(time,e)
 					logging.error(e)

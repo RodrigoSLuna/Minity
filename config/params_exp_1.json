@@ -2,7 +2,7 @@
 	{
 		"type":"config",
 		"n_rodadas":1,
-		"tempo_rodada":80
+		"tempo_rodada":100
 	},
 	{ 
 		"time":1,
@@ -13,30 +13,9 @@
 	},
 	{
 		"type":"bw",
-		"time":20,
+		"time":1,
 		"node":"sw2",
 		"intfName":"sw2-sw3",
-		"value":20
-	},
-	{
-		"type":"bw",
-		"time":40,
-		"node":"sw2",
-		"intfName":"sw2-sw3",
-		"value":10
-	},
-	{ 
-		"type":"rtt",
-		"time":55,
-		"node":"h2",
-		"intfName":"sw3-h2",
-		"value":"120ms"
-	},
-	{ 
-		"type":"rtt",
-		"time":75,
-		"node":"h2",
-		"intfName":"sw3-h2",
-		"value":"40ms"
+		"value":300
 	}
 ]

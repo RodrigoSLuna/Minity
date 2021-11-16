@@ -2,7 +2,7 @@
 	{
 		"type":"HOST",
 		"name":"h1",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
@@ -36,7 +36,7 @@
 	{
 		"type":"HOST",
 		"name":"h2",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
@@ -70,7 +70,7 @@
 	{
 		"type":"HOST",
 		"name":"h3",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
@@ -104,7 +104,7 @@
 	{
 		"type":"HOST",
 		"name":"h4",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
@@ -138,7 +138,7 @@
 	{
 		"type":"HOST",
 		"name":"h5",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
@@ -172,7 +172,7 @@
 	{
 		"type":"HOST",
 		"name":"h6",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
@@ -207,7 +207,7 @@
 	{
 		"type":"HOST",
 		"name":"h7",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"40ms",
@@ -242,7 +242,7 @@
 	{
 		"type":"HOST",
 		"name":"h8",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"40ms",
@@ -277,7 +277,7 @@
 	{
 		"type":"HOST",
 		"name":"h9",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"40ms",
@@ -312,7 +312,7 @@
 	{
 		"type":"HOST",
 		"name":"h10",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"80ms",
@@ -348,7 +348,7 @@
 	{
 		"type":"HOST",
 		"name":"h11",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"80ms",
@@ -384,7 +384,7 @@
 	{
 		"type":"HOST",
 		"name":"h12",
-		"transport_protocol":"bbr",
+		"transport_protocol":"reno",
 		"queue":{
 			"protocol":"",
 			"latency":"80ms",
@@ -468,11 +468,11 @@
 				"queue":{
 					"status":1,
 					"delta_t":0.01,
-					"intf":"sw3-eth1"
+					"intf":"sw2-sw3"
 				},
 				"traffic":{
 					"status":1,
-					"intf":"sw2-eth4",
+					"intf":"sw2-sw3",
 					"delta_t":0.02
 				},
 				"socket":{
@@ -526,7 +526,7 @@
 		"intfName1":"h1-sw1",
 		"intfName2":"h1-sw1",
 		"bw":300,
-		"buffer":50000,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -537,7 +537,7 @@
 		"intfName1":"h2-sw1",
 		"intfName2":"h2-sw1",
 		"bw":300,
-		"buffer":50000,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -548,7 +548,7 @@
 		"intfName1":"h3-sw1",
 		"intfName2":"h3-sw1",
 		"bw":300,
-		"buffer":50000,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -559,7 +559,7 @@
 		"intfName1":"h4-sw1",
 		"intfName2":"h4-sw1",
 		"bw":300,
-		"buffer":50000,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -571,7 +571,7 @@
 		"intfName1":"h5-sw1",
 		"intfName2":"h5-sw1",
 		"bw":300,
-		"buffer":50000,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -583,7 +583,7 @@
 		"intfName1":"h6-sw1",
 		"intfName2":"h6-sw1",
 		"bw":300,
-		"buffer":50000,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -594,7 +594,7 @@
 		"intfName1":"sw1-eth4",
 		"intfName2":"sw1-sw2",
 		"bw":300,
-		"buffer":50000,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -605,7 +605,7 @@
 		"intfName1":"sw2-sw3",
 		"intfName2":"sw3-eth1",	
 		"bw":200,
-		"buffer":50000,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -616,7 +616,7 @@
 		"intfName1":"sw3-h7",
 		"intfName2":"sw3-h7",
 		"bw":300,
-		"buffer":50000,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -627,7 +627,7 @@
 		"intfName1":"sw3-h8",
 		"intfName2":"sw3-h8",
 		"bw":300,
-		"buffer":50000,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	}
@@ -639,7 +639,7 @@
 		"intfName1":"sw3-h9",
 		"intfName2":"sw3-h9",
 		"bw":300,
-		"buffer":1500,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	},
@@ -650,7 +650,7 @@
 		"intfName1":"sw3-h10",
 		"intfName2":"sw3-h10",
 		"bw":300,
-		"buffer":1500,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	}
@@ -662,7 +662,7 @@
 		"intfName1":"sw3-h11",
 		"intfName2":"sw3-h11",
 		"bw":300,
-		"buffer":1500,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	}
@@ -674,7 +674,7 @@
 		"intfName1":"sw3-h12",
 		"intfName2":"sw3-h12",
 		"bw":300,
-		"buffer":1500,
+		"buffer":150000,
 		"latency":"0ms",
 		"loss":0
 	}

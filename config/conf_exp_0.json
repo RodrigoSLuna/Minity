@@ -2,11 +2,11 @@
 	{
 		"type":"HOST",
 		"name":"h1",
-		"transport_protocol":"cubic",
+		"transport_protocol":"bbr",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
-			"length":"150000",
+			"length":"",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -15,14 +15,13 @@
 		"sniffer":
 			{
 				"queue":{
-
 					"status":0,
-					"delta_t":0
+					"delta_t":0,
+					"intf":""
 				},
 				"traffic":{
 					"status":0,
-					"intf":"",
-					"delta_t":0
+					"intf":""
 				},
 				"socket":{
 					"status":1,
@@ -36,11 +35,11 @@
 	{
 		"type":"HOST",
 		"name":"h2",
-		"transport_protocol":"cubic",
+		"transport_protocol":"bbr",
 		"queue":{
 			"protocol":"",
 			"latency":"0ms",
-			"length":"150000",
+			"length":"",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -51,12 +50,12 @@
 				"queue":{
 
 					"status":0,
-					"delta_t":0
+					"delta_t":0,
+					"intf":""
 				},
 				"traffic":{
 					"status":0,
-					"intf":"",
-					"delta_t":0
+					"intf":""
 				},
 				"socket":{
 					"status":1,
@@ -72,9 +71,9 @@
 		"name":"h3",
 		"transport_protocol":"bbr",
 		"queue":{
-			"protocol":"fq_codel",
+			"protocol":"",
 			"latency":"80ms",
-			"length":"150000",
+			"length":"",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -85,12 +84,11 @@
 				"queue":{
 					"status":1,
 					"delta_t":0.001,
-					"intf":"sw3-h3"
+					"intf":"h3-eth4"
 				},
 				"traffic":{
 					"status":0,
-					"intf":"",
-					"delta_t":0
+					"intf":""
 				},
 				"socket":{
 					"status":0,
@@ -106,9 +104,9 @@
 		"name":"h4",
 		"transport_protocol":"bbr",
 		"queue":{
-			"protocol":"fq_codel",
+			"protocol":"",
 			"latency":"40ms",
-			"length":"150000",
+			"length":"",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -118,13 +116,12 @@
 				"queue":{
 					"status":1,
 					"delta_t":0.001,
-					"intf":"sw3-h4"
+					"intf":"h4-eth4"
 
 				},
 				"traffic":{
 					"status":0,
-					"intf":"",
-					"delta_t":0
+					"intf":""
 				},
 				"socket":{
 					"status":0,
@@ -140,9 +137,9 @@
 		"name":"sw1",
 		"transport_protocol":"bbr",
 		"queue":{
-			"protocol":"fq_codel",
+			"protocol":"",
 			"latency":"",
-			"length":"150000",
+			"length":"",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -156,9 +153,7 @@
 				},
 				"traffic":{
 					"status":1,
-					"intf":"sw1-eth4",
-					"delta_t":0.2
-
+					"intf":"sw1-eth4"
 				},
 				"socket":{
 					"status":0,
@@ -175,9 +170,9 @@
 		"name":"sw2",
 		"transport_protocol":"bbr",
 		"queue":{
-			"protocol":"fq_codel",
+			"protocol":"",
 			"latency":"",
-			"length":"150000",
+			"length":"",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -186,13 +181,12 @@
 			{
 				"queue":{
 					"status":1,
-					"delta_t":0.001,
+					"delta_t":0.01,
 					"intf":"sw2-sw3"
 				},
 				"traffic":{
 					"status":1,
-					"intf":"sw2-eth4",
-					"delta_t":0.02
+					"intf":"sw2-sw3"
 				},
 				"socket":{
 					"status":0,
@@ -209,9 +203,9 @@
 		"name":"sw3",
 		"transport_protocol":"bbr",
 		"queue":{
-			"protocol":"fq_codel",
+			"protocol":"",
 			"latency":"",
-			"length":"150000",
+			"length":"",
 			"jitter":"",
 			"variation":"",
 			"loss":""		
@@ -219,14 +213,13 @@
 		"sniffer":
 			{
 				"queue":{
-					"status":1,
+					"status":0,
 					"delta_t":0.001,
-					"intf":"sw2-sw3"
+					"intf":"sw3-eth1"
 				},
 				"traffic":{
-					"status":1,
-					"intf":"sw2-sw3",
-					"delta_t":0.02
+					"status":0,
+					"intf":"sw3-eth1"
 				},
 				"socket":{
 					"status":0,
@@ -244,7 +237,7 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h1-sw1",
 		"intfName2":"h1-sw1",
-		"bw":200,
+		"bw":20,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -255,7 +248,7 @@
 		"VERTICE_2":"sw1",
 		"intfName1":"h2-sw1",
 		"intfName2":"h2-sw1",
-		"bw":200,
+		"bw":20,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -266,7 +259,7 @@
 		"VERTICE_2":"sw2",
 		"intfName1":"sw1-eth4",
 		"intfName2":"sw1-sw2",
-		"bw":200,
+		"bw":20,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -277,7 +270,7 @@
 		"VERTICE_2":"sw3",
 		"intfName1":"sw2-sw3",
 		"intfName2":"sw3-eth1",	
-		"bw":100,
+		"bw":10,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -288,8 +281,8 @@
 		"VERTICE_1":"sw3",
 		"VERTICE_2":"h3",
 		"intfName1":"sw3-h3",
-		"intfName2":"sw3-h3",
-		"bw":200,
+		"intfName2":"h3-eth3",
+		"bw":20,
 		"buffer":1500,
 		"latency":"0ms",
 		"loss":0
@@ -299,8 +292,8 @@
 		"VERTICE_1":"sw3",
 		"VERTICE_2":"h4",
 		"intfName1":"sw3-h4",
-		"intfName2":"sw3-h4",
-		"bw":200,
+		"intfName2":"h4-eth4",
+		"bw":20,
 		"buffer":1500,
 		"latency":"0ms", 
 		"loss":0

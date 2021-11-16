@@ -13,7 +13,7 @@ class Node(FTP,Sniffer):
 
 		self.transport_protocol = params['transport_protocol']
 		if(len(params['queue']['length']) == 0):
-			params['queue']['length'] = 1000
+			params['queue']['length'] = 100000
 		self.queue = params['queue']
 		self.ip = params['ip']
 		# self.mask = params['mask']
